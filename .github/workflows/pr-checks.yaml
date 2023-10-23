@@ -25,4 +25,4 @@ jobs:
       - run: |
           cd backend
           npm i
-          npm run test
+          npm test

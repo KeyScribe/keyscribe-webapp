@@ -4,7 +4,7 @@ import https from 'https';
 import fs from 'fs';
 
 // ROUTES
-import testRouter from './routes/test';
+import testRouter from './routes/test-router';
 
 // For env File
 dotenv.config();
