@@ -6,4 +6,4 @@ router.get('/test', (req: Request, res: Response) => {
   res.send('This is a test!');
 });
 
-export default router;
+export default router
