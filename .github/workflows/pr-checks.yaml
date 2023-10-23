@@ -11,8 +11,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - run: cd backend && npm i
-      - run: npm run lint
+      - run: |
+        cd backend
+        npm i
+        npm run lint
   test:
     runs-on: ubuntu-latest
     steps:
@@ -20,5 +22,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - run: cd backend && npm i
-      - run: npm run test
+      - run: |
+        cd backend
+        npm i
+        npm run test
