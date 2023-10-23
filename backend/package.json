@@ -4,11 +4,11 @@
   "description": "Keyscribe App Backend",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \\\"No test specified\\\" && exit 1",
-    "build": "npx tsc",
+    "test": "mocha",
+    "build": "npx tsc --project tsconfig.prod.json",
     "start": "node dist/index.js",
     "dev": "ts-node-dev src/index.ts",
-    "lint": "eslint src/**/*.ts"
+    "lint": "eslint src/**/*.ts test/**/*.ts"
   },
   "author": "Keyscribe Team",
   "license": "MIT",
@@ -21,12 +21,18 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.9",
     "@types/express": "^4.17.20",
+    "@types/mocha": "^10.0.3",
     "@types/node": "^20.8.7",
+    "@types/sinon": "^10.0.20",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
+    "chai": "^4.3.10",
     "eslint": "^8.52.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^17.1.0"
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "mocha": "^10.2.0",
+    "sinon": "^17.0.0"
   }
 }
