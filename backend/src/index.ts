@@ -2,7 +2,9 @@ import express, { Request, Response, Application } from 'express';
 import dotenv from 'dotenv';
 import https from 'https';
 import fs from 'fs';
-import wsSetup from './websockets/websocket-setup';
+import {wsSetup} from './websockets/websocket-setup';
+import bodyParser from 'body-parser';
+
 
 // ROUTES
 import testRouter from './routes/test-router';
@@ -12,12 +14,16 @@ dotenv.config();
 
 const app: Application = express();
 const port = process.env.PORT || 8000;
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended : true}));
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hi! I\'m Working!');
 });
 
+
 app.use(testRouter);
+
 
 const server = https.createServer({
   key: fs.readFileSync('keys/key.pem'),
