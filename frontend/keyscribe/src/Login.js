@@ -9,9 +9,13 @@ const Login = () => {
   const handleLogin = () => {
     // Add your login logic here
     // Replace the following line with your actual authentication logic
-    if (username === 'test' && password === 'test') {
-      navigate('/welcome'); // Redirect to the welcome page
+    if (username === 'teacher' && password === 'teacher') {
+      navigate('/welcome_teacher'); // Redirect to the teacher welcome page
     }
+
+    if (username === 'student' && password === 'student') {
+        navigate('/welcome_student'); // Redirect to the student welcome page
+      }
   }
 
   const inputStyle = {

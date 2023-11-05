@@ -3,7 +3,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Login from './Login';
 
-const Welcome = () => <h1>Correct Username and Password!</h1>;
+const WelcomeTeach = () => <h1>Teacher Login</h1>;
+const WelcomeStud = () => <h1>Student Login</h1>;
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
         <h1>Welcome to KeyScribe!</h1>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/welcome_teacher" element={<WelcomeTeach />} />
+          <Route path="/welcome_student" element={<WelcomeStud />} />
         </Routes>
       </div>
     </BrowserRouter>
