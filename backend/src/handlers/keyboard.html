@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Piano Control</title>
+    <style>
+        /* Center the piano keys both vertically and horizontally */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .piano-container {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .piano-key.white {
+            width: 50px;
+            height: 150px;
+            background: white;
+            margin-right: 5px;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+
+        .piano-key.black {
+            background: black;
+            width: 40px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="piano-container">
+        <div class="piano-key white" id="greenButton">Green</div>
+        <div class="piano-key black" id="blackButton1">Black</div>
+        <div class="piano-key white" id="redButton">Red</div>
+        <div class="piano-key black" id="blackButton2">Black</div>
+        <div class="piano-key white" id="yellowButton">Yellow</div>
+        <div class="piano-key black" id="blackButton3">Black</div>
+        <div class="piano-key white" id="blueButton">Blue</div>
+    </div>
+    <script>
+        document.getElementById("greenButton").addEventListener("click", function () {
+            sendRequest("green");
+        });
+        document.getElementById("redButton").addEventListener("click", function () {
+            sendRequest("red");
+        });
+        document.getElementById("yellowButton").addEventListener("click", function () {
+            sendRequest("yellow");
+        });
+        document.getElementById("blueButton").addEventListener("click", function () {
+            sendRequest("blue");
+        });
+
+        function sendRequest(color) {
+            fetch('/led', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ color: color }),
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        console.log(`Successfully turned on ${color} LED.`);
+                    } else {
+                        console.error(`Failed to turn on ${color} LED.`);
+                    }
+                })
+                .catch((error) => {
+                    console.error(`Error: ${error}`);
+                });
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Piano Control</title>
+    <style>
+        /* Style for piano keys and LED buttons */
+        /* Center the piano keys both vertically and horizontally */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .piano-container {
+            display: flex;
+            flex-direction: row;
+        }
+        .piano-key.white {
+            width: 50px;
+            height: 150px;
+            background: white;
+            margin-right: 5px;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+        .piano-key.black {
+            background: black;
+            width: 40px;
+            height: 100px;
+        }
+        /* (Add your styling here) */
+    </style>
+</head>
+<body>
+    <div class="piano-container">
+        <div class="piano-key white" id="whiteKeyC">C</div>
+        Add more piano keys here as needed 
+
+        <div class="led-button led-green" id="ledGreen"></div>
+        <div class="led-button led-red" id="ledRed"></div>
+        <div class="led-button led-yellow" id="ledYellow"></div>
+        <div class="led-button led-blue" id="ledBlue"></div>
+    </div>
+
+    <script>
+        var ws = new WebSocket("ws://your_laptop_ip:8000/ws");
+
+        ws.onopen = function (event) {
+            console.log("WebSocket connection opened.");
+        };
+
+        ws.onmessage = function (event) {
+            var ledStates = JSON.parse(event.data);
+
+            // Update the LED buttons based on received LED states
+            if (ledStates.green) {
+                document.getElementById("ledGreen").style.background = "green";
+            } else {
+                document.getElementById("ledGreen").style.background = "#808080";
+            }
+
+            // Add similar code for other LED buttons (red, yellow, blue)
+
+            // Handle other interactions if needed
+        };
+
+        // Event listeners for piano key clicks
+        document.getElementById("whiteKeyC").addEventListener("click", function () {
+            // Send a command to the server if needed
+        });
+
+        // Add event listeners for other piano keys as needed
+    </script>
+</body>
+</html>
+-->

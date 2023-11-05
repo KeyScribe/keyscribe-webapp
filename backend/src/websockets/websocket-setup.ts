@@ -1,19 +1,36 @@
+//Listens for WebSocket connections, communicates with the Raspberry Pi, and can be responsible for handling LED control.
 import { WebSocketServer, WebSocket } from 'ws';
 import { Server } from 'https';
 
-const connections: WebSocket[] = [];
+let wss_s: WebSocketServer;
 
-const wsSetup = (httpsServer: Server): WebSocketServer => {
+const wsSetup = (httpsServer: Server) => {
   const wss = new WebSocketServer({ server: httpsServer, path: '/ws' });
-
+  
   wss.on('connection', (ws) => {
     console.log('Connection requested');
 
     ws.on('message', (message) => {
       console.log(message.toString());
-    });
-  }); 
 
+    });
+
+    // ws.on('open', function open(){
+
+    //   //get this message somewhere
+
+    //   // Handle LED control commands
+    //   if (typeof message === 'string' && (message === 'red' || message === 'green' || message === 'yellow' || message === 'blue')) {
+    //     // Forward the command to the Raspberry Pi's WebSocket
+    //     if (ws.readyState === WebSocket.OPEN) {      
+    //       ws.send(message);
+    //     }
+    //   }
+    // });
+
+  });
+
+  wss_s = wss;
   return wss;
 };
 

@@ -29,6 +29,7 @@ app.get('/*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
 });
 
+
 app.use('/', routes);
 
 // START SERVER
