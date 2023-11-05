@@ -1,14 +1,21 @@
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Login from './Login';
+
+const Welcome = () => <h1>Correct Username and Password!</h1>;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Welcome to KeyScribe Webpage!
-        </p>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <h1>Welcome to KeyScribe!</h1>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/welcome" element={<Welcome />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
