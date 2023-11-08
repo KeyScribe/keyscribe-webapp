@@ -2,29 +2,32 @@ import express, { Request, Response, Application } from 'express';
 import dotenv from 'dotenv';
 import https from 'https';
 import fs from 'fs';
-import {wsSetup} from './websockets/websocket-setup';
 import bodyParser from 'body-parser';
-
+import { wsSetup } from './websockets/websocket-setup';
 
 // ROUTES
 import testRouter from './routes/test-router';
+import keyboardRouter from './routes/led-router';
 
-// For env File
+// ENV FILE
 dotenv.config();
 
+// DEFINE APP AND SETUP BASIC REQUIREMENTS
 const app: Application = express();
 const port = process.env.PORT || 8000;
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended : true}));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// DEFINE ROUTES HERE
 app.get('/', (req: Request, res: Response) => {
   res.send('Hi! I\'m Working!');
 });
 
+app.use('/test', testRouter);
+app.use('/keyboard', keyboardRouter);
 
-app.use(testRouter);
-
-
+// START SERVER
 const server = https.createServer({
   key: fs.readFileSync('keys/key.pem'),
   cert: fs.readFileSync('keys/cert.pem'),

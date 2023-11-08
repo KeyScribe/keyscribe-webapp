@@ -1,22 +1,19 @@
 import { Request, Response } from 'express';
+import { stubInterface } from 'ts-sinon';
 
-const makeReqMock = (): Request => {
-  const req = {} as Request;
-  return req;
+const makeReqStub = () => {
+  const reqStub = stubInterface<Request>();
+  return reqStub;
 };
 
-const makeResMock = (): Response => {
-  const res = {
-    send: () => { },
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    status: (code: number) => { },
-  };
-
-  return res as Response;
+const makeResStub = () => {
+  const resStub = stubInterface<Response>();
+  resStub.send.returns(resStub);
+  resStub.status.returns(resStub);
+  return resStub;
 };
 
 export {
-  makeReqMock,
-  makeResMock,
+  makeReqStub,
+  makeResStub,
 };
