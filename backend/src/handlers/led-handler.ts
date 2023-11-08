@@ -20,5 +20,11 @@ const ledOn = (req: Request, res: Response) => {
   }
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { ledOn };
+const keyboard = (req: Request, res: Response) => {
+  res.sendFile('keyboard.html', { root: __dirname });
+};
+
+export {
+  ledOn,
+  keyboard,
+};

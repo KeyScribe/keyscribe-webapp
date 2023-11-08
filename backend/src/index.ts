@@ -29,6 +29,8 @@ app.get('/*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
 });
 
+app.use('/test', testRouter);
+app.use('/keyboard', keyboardRouter);
 
 app.use('/', routes);
 
