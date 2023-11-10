@@ -13,6 +13,7 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
 
     ws.on('message', (message) => {
       console.log(message.toString());
+      sendMessageToRaspberryPi(message.toString());
     });
   });
 
@@ -21,7 +22,21 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
 
 const getWebsocketConnections = (): WebSocket[] => connections;
 
+// Function to send WebSocket messages to Raspberry Pi
+const sendMessageToRaspberryPi = (message: string) => {
+  const connections = getWebsocketConnections();
+
+  if (connections.length !== 0) {
+    // Loop through connected clients and send the message
+    connections.forEach((ws) => {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(message);
+      }
+    });
+  }
+};
 export {
   getWebsocketConnections,
   wsSetup,
+  sendMessageToRaspberryPi,
 };
