@@ -2,8 +2,9 @@ import React from 'react';
 import { KeyboardWrapper } from './Keyboard.styled';
 
 const sendRequest = (color) => {
-    fetch('/led', {
+    fetch('/keyboard/led', {
         method: 'POST',
+        //mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -13,7 +14,8 @@ const sendRequest = (color) => {
         if (response.ok) {
             console.log(`Successfully turned on ${color} LED.`);
         } else {
-            console.error(`Failed to turn on ${color} LED.`);
+            //console.error(`Failed to turn on ${color} LED.`);
+            console.log(response.body);
         }
     })
     .catch((error) => {
@@ -24,6 +26,7 @@ const sendRequest = (color) => {
 const Keyboard = () => (
  <KeyboardWrapper data-testid="Keyboard">
    <div class="piano-container">
+    
       <div onClick={() => sendRequest('green')} class="piano-key white" id="greenButton">Green</div>
       <div class="piano-key black" id="blackButton1">Black</div>
       <div onClick={() => sendRequest('red')} class="piano-key white" id="redButton">Red</div>
