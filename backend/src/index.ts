@@ -19,12 +19,12 @@ const port = process.env.PORT || 8000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "../../frontend/build")));
-app.use(express.static(path.join(__dirname, "../../frontend/public")));
+app.use(express.static(path.join(__dirname, '../../frontend/build')));
+app.use(express.static(path.join(__dirname, '../../frontend/public')));
 
 // DEFINE ROUTES HERE
 app.get('/*', (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "../../frontend/build", "index.html"));
+  res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
 });
 
 app.use('/test', testRouter);
