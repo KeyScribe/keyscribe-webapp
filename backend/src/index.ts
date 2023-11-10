@@ -2,6 +2,7 @@ import express, { Request, Response, Application } from 'express';
 import dotenv from 'dotenv';
 import https from 'https';
 import fs from 'fs';
+import path from 'path';
 import bodyParser from 'body-parser';
 import { wsSetup } from './websockets/websocket-setup';
 
@@ -18,10 +19,12 @@ const port = process.env.PORT || 8000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "../../frontend/build")));
+app.use(express.static(path.join(__dirname, "../../frontend/public")));
 
 // DEFINE ROUTES HERE
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hi! I\'m Working!');
+app.get('/*', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../frontend/build", "index.html"));
 });
 
 app.use('/test', testRouter);
