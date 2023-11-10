@@ -9,12 +9,8 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
   wss.on('connection', (ws) => {
     console.log('Connection requested');
 
-    connections.push(ws);
-
-    ws.on('message', (raw_message) => {
-      const message = JSON.parse(raw_message.toString());
-      console.log(message.duration, message.start_time);
-      sendMessageToRaspberryPi(message.pin.toString(), message.state.toString(), message.duration.toString(), message.start_time.toString());
+    ws.on('message', (message) => {
+      console.log(message.toString());
     });
   });
 
