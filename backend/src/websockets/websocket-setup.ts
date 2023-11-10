@@ -1,11 +1,15 @@
-import { WebSocketServer } from 'ws';
+import { WebSocketServer, WebSocket } from 'ws';
 import { Server } from 'https';
 
-const wsSetup = (httpsServer: Server) => {
+const connections: WebSocket[] = [];
+
+const wsSetup = (httpsServer: Server): WebSocketServer => {
   const wss = new WebSocketServer({ server: httpsServer, path: '/ws' });
 
   wss.on('connection', (ws) => {
     console.log('Connection requested');
+
+    connections.push(ws);
 
     ws.on('message', (message) => {
       console.log(message.toString());
@@ -15,4 +19,9 @@ const wsSetup = (httpsServer: Server) => {
   return wss;
 };
 
-export default wsSetup;
+const getWebsocketConnections = (): WebSocket[] => connections;
+
+export {
+  getWebsocketConnections,
+  wsSetup,
+};

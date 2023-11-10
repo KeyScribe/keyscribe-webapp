@@ -13,9 +13,11 @@
   "author": "Keyscribe Team",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "http": "^0.0.1-security",
     "https": "^1.0.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2",
@@ -35,6 +37,6 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "mocha": "^10.2.0",
-    "sinon": "^17.0.0"
+    "ts-sinon": "^2.0.2"
   }
 }
