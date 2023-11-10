@@ -1,5 +1,4 @@
 import React from 'react';
-import './Keyboard.css';
 import { KeyboardWrapper } from './Keyboard.styled';
 
 const sendRequest = (color) => {
