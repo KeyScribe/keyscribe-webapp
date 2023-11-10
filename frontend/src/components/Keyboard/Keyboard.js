@@ -4,7 +4,6 @@ import { KeyboardWrapper } from './Keyboard.styled';
 const sendRequest = (color) => {
     fetch('/keyboard/led', {
         method: 'POST',
-        //mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -14,8 +13,7 @@ const sendRequest = (color) => {
         if (response.ok) {
             console.log(`Successfully turned on ${color} LED.`);
         } else {
-            //console.error(`Failed to turn on ${color} LED.`);
-            console.log(response.body);
+            console.error(`Failed to turn on ${color} LED.`);
         }
     })
     .catch((error) => {
