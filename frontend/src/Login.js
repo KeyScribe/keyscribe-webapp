@@ -5,18 +5,26 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('https://localhost:8000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-  const handleLogin = () => {
-    // Add your login logic here
-    // Replace the following line with your actual authentication logic
-    if (username === 'teacher' && password === 'teacher') {
-      navigate('/welcome_teacher'); // Redirect to the teacher welcome page
-    }
-
-    if (username === 'student' && password === 'student') {
-        navigate('/welcome_student'); // Redirect to the student welcome page
+      if (response.status === 200) {
+        console.log('Login successful');
+        navigate('/welcome_teacher');
+      } else {
+        console.error('Login failed');
       }
-  }
+    } catch (error) {
+      console.error('Error during login', error);
+    }
+  };
 
   const inputStyle = {
     marginBottom: '15px', // Increase the margin-bottom as needed for the input fields

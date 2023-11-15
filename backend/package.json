@@ -14,17 +14,18 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "http": "^0.0.1-security",
     "https": "^1.0.0",
+    "pg": "^8.11.3",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2",
     "ws": "^8.14.2"
   },
   "devDependencies": {
     "@types/chai": "^4.3.9",
+    "@types/cors": "^2.8.16",
     "@types/express": "^4.17.20",
     "@types/mocha": "^10.0.3",
     "@types/node": "^20.8.7",
@@ -33,6 +34,7 @@
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
     "chai": "^4.3.10",
+    "cors": "^2.8.5",
     "eslint": "^8.52.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
