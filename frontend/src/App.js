@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Login from './Login';
 import Keyboard from './components/Keyboard/Keyboard';
+import PianoKeyboard from './components/Keyboard/piano';
 
 function App() {
   return (
@@ -11,8 +12,8 @@ function App() {
         <h1>Welcome to KeyScribe!</h1>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/welcome_teacher" element={<Keyboard />} />
-          <Route path="/welcome_student" element={<Keyboard />} />
+          <Route path="/welcome_teacher" element={<PianoKeyboard />} />
+          <Route path="/welcome_student" element={<PianoKeyboard />} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -17,9 +17,10 @@ const sendMessageToRaspberryPi = (message: string) => {
 };
 
 const ledOn = (req: Request, res: Response) => {
-  if (req.body.color) {
-    const ledColor = req.body.color;
-    sendMessageToRaspberryPi(ledColor);
+  
+  if (req.body.note) {
+    const ledNote = req.body.note;
+    sendMessageToRaspberryPi(ledNote);
     res.status(200);
     res.send();
   } else {
