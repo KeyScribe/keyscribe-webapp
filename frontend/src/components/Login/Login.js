@@ -8,25 +8,25 @@ const Login = () => {
    const [username, setUsername] = useState('');
    const [password, setPassword] = useState('');
 
-   const handleLogin = () => {
+   const handleLogin = async () => {
       try {
          const response = await fetch(`${apiURL}/login`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json',
-         },
-         body: JSON.stringify({ username, password }),
+           method: 'POST',
+           headers: {
+             'Content-Type': 'application/json',
+           },
+           body: JSON.stringify({ username, password }),
          });
    
          if (response.status === 200) {
-         console.log('Login successful');
-         navigate('/welcome_teacher');
+           console.log('Login successful');
+           navigate('/welcome_teacher');
          } else {
-         console.error('Login failed');
+           console.error('Login failed');
          }
-      } catch (error) {
+       } catch (error) {
          console.error('Error during login', error);
-      }
+       }
    }
 
    const inputStyle = {
