@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const apiURL = process.env.REACT_APP_BACKEND_URL;
+
 const Login = () => {
    const navigate = useNavigate();
    const [username, setUsername] = useState('');
    const [password, setPassword] = useState('');
-
-   const handleLogin = () => {
-      // Add your login logic here
-      // Replace the following line with your actual authentication logic
-      if (username === 'teacher' && password === 'teacher') {
-         navigate('/welcome_teacher'); // Redirect to the teacher welcome page
-      }
-      if (username === 'student' && password === 'student') {
-         navigate('/welcome_student'); // Redirect to the student welcome page
-      }
+   const handleLogin = async () => {
+      try {
+         const response = await fetch(`${apiURL}/login`, {
+           method: 'POST',
+           headers: {
+             'Content-Type': 'application/json',
+           },
+           body: JSON.stringify({ username, password }),
+         });
+   
+         if (response.status === 200) {
+           console.log('Login successful');
+           navigate('/welcome_teacher');
+         } else {
+           console.error('Login failed');
+         }
+       } catch (error) {
+         console.error('Error during login', error);
+       }
    }
 
    const inputStyle = {

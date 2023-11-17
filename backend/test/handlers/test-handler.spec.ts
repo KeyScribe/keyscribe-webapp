@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { makeReqStub, makeResStub } from '../test-utils';
-import { helloWorld, helloWorld2 } from '../../src/handlers/test-handler';
+import { helloWorld, helloWorld2 } from '../../src/handlers/login-handler';
 
 describe('Test Handler Tests', () => {
   it('should send a hello world message', () => {
