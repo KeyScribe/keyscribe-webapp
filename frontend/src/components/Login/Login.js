@@ -7,7 +7,6 @@ const Login = () => {
    const navigate = useNavigate();
    const [username, setUsername] = useState('');
    const [password, setPassword] = useState('');
-
    const handleLogin = async () => {
       try {
          const response = await fetch(`${apiURL}/login`, {
