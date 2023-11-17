@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const apiURL = process.env.REACT_APP_BACKEND_URL;
+
 const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://localhost:8000/login', {
+      const response = await fetch(`${apiURL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

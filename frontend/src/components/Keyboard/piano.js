@@ -1,8 +1,10 @@
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano';
 import 'react-piano/dist/styles.css';
 
+const apiURL = process.env.REACT_APP_BACKEND_URL;
+
 const sendRequest = (note) => {
-    fetch('https://localhost:8000/led', {
+    fetch(`${apiURL}/led`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

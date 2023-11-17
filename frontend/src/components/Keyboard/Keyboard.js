@@ -2,7 +2,7 @@ import React from 'react';
 import { KeyboardWrapper } from './Keyboard.styled';
 
 const sendRequest = (color) => {
-    fetch('https://localhost:8000/led', {
+    fetch('/led', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
