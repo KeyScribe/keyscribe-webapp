@@ -5,14 +5,15 @@ import { getWebsocketConnections, sendMessageToRaspberryPi } from '../websockets
 
 
 const ledOn = (req: Request, res: Response) => {
-  if (req.body.color) {
-    const ledColor = req.body.color;
-    sendMessageToRaspberryPi(ledColor);
+  if (req.body.pin) {
+    const ledPin = req.body.pin;
+    const ledState = req.body.state;
+    sendMessageToRaspberryPi(ledPin, ledState);
     res.status(200);
     res.send();
   } else {
     res.status(400);
-    res.send('No color specified');
+    res.send('No pin specified');
   }
 };
 
