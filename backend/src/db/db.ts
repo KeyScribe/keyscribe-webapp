@@ -1,14 +1,12 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  user: 'postgres',
-  host: '127.0.0.1',
-  database: 'postgres',
-  password: 'K3yscr1b3',
+  user: 'keyscribe',
+  host: 'ec2-3-86-40-33.compute-1.amazonaws.com',
+  database: 'ks_db',
+  password: 'Keyscribe',
   port: 5432, // Default PostgreSQL port
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: false
 });
 
 export {pool};

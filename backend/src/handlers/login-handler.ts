@@ -4,7 +4,7 @@ import { pool } from '../db/db'
 const loginHandler = async (req: Request, res: Response) => { 
   const {username, password} = req.body;
   try {
-    const result = await pool.query("SELECT * FROM users WHERE username = $1 AND password = $2", [username, password]);
+    const result = await pool.query("SELECT * FROM users_test WHERE username = $1 AND password = $2", [username, password]);
     if (result.rows.length === 0) {
       res.status(401).json({ error: 'Invalid credentials' });
     } else {
