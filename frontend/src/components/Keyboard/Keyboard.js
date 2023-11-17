@@ -116,7 +116,6 @@ const Keyboard = () => {
     <Button onClick={startRecording} variant="contained" style={{ textTransform: 'none' }} disabled={isRecording}>Start Recording</Button>
     <div class="piano-container">
         
-        <div onMouseDown={() => sendRequest("4", "0")} onMouseUp={() => sendRequest("4", "1")} class="piano-key white" id="greenButton">Green</div>
         {/* <div onClick={() => sendRequest('green')} class="piano-key white" id="greenButton">Green</div>
         <div class="piano-key black" id="blackButton1">Black</div>
         <div onMouseDown={() => sendRequest("27", "0")} onMouseUp={() => sendRequest("27", "1")} class="piano-key white" id="redButton">Red</div>
