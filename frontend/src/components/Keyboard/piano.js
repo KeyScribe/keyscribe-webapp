@@ -30,18 +30,20 @@ const PianoKeyboard = () => {
     });
 
     return (
-    <Piano
-      noteRange={{ first: firstNote, last: lastNote }}
-      playNote={(midiNumber) => {
-        // Play a given note - see notes below
-        sendRequest(midiNumber.toString());
-      }}
-      stopNote={(midiNumber) => {
-        // Stop playing a given note - see notes below
-      }}
-      width={1000}
-      keyboardShortcuts={keyboardShortcuts}
-    />
+      <center>
+        <Piano
+          noteRange={{ first: firstNote, last: lastNote }}
+          playNote={(midiNumber) => {
+            // Play a given note - see notes below
+            sendRequest(midiNumber.toString());
+          }}
+          stopNote={(midiNumber) => {
+            // Stop playing a given note - see notes below
+          }}
+          width={1000}
+          keyboardShortcuts={keyboardShortcuts}
+        />
+      </center>
     );
 }
 
