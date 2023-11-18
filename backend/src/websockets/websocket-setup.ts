@@ -13,10 +13,12 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
 
     ws.on('message', (raw_message) => {
       const message = JSON.parse(raw_message.toString());
-      console.log(message.duration, message.start_time);
+      if (message.duration != -1 && message.start_time != -1){
+        console.log('Duration: %d, Start time: %d', message.duration, message.start_time);
+      }
       sendMessageToRaspberryPi(message.pin.toString(), message.state.toString(), message.duration.toString(), message.start_time.toString());
     });
-  });
+  }); 
 
   return wss;
 };
