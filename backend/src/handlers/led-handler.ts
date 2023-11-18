@@ -5,13 +5,15 @@ import { getWebsocketConnections, sendMessageToRaspberryPi } from '../websockets
 
 
 const ledOn = (req: Request, res: Response) => {
-  if (req.body.pin) {
-    const ledPin = req.body.pin;
+  if (req.body.note) {
+    console.log(`Hello`);
+    const ledNote = req.body.note;
     const ledState = req.body.state;
     const ledStart = req.body.start_time;
     const ledDuration = req.body.duration;
     const piId = req.body.id;
-    sendMessageToRaspberryPi(piId, ledPin, ledState, ledStart, ledDuration);
+    console.log(ledState);
+    sendMessageToRaspberryPi(piId, ledNote, ledState, ledStart, ledDuration);
     res.status(200);
     res.send();
   } else {
