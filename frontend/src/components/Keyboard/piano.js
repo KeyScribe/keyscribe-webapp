@@ -3,13 +3,13 @@ import 'react-piano/dist/styles.css';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
-const sendRequest = (note) => {
+const sendRequest = (note, state) => {
     fetch(`${apiURL}/led`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ note: note }),
+        body: JSON.stringify({ note: note , state: state}),
     })
     .then((response) => {
         if (response.ok) {
@@ -37,7 +37,7 @@ const PianoKeyboard = () => {
           noteRange={{ first: firstNote, last: lastNote }}
           playNote={(midiNumber) => {
             // Play a given note - see notes below
-            sendRequest(midiNumber.toString());
+            sendRequest(midiNumber.toString(), "0");
           }}
           stopNote={(midiNumber) => {
             // Stop playing a given note - see notes below
