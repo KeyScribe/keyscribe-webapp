@@ -1,10 +1,6 @@
 import { WebSocketServer, WebSocket } from 'ws';
-import { WebSocketServer, WebSocket } from 'ws';
 import { Server } from 'https';
 
-const connections: WebSocket[] = [];
-
-const wsSetup = (httpsServer: Server): WebSocketServer => {
 const connections: WebSocket[] = [];
 
 const wsSetup = (httpsServer: Server): WebSocketServer => {
