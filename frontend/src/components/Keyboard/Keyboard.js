@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano';
 import { KeyboardWrapper } from './Keyboard.styled';
 import Button from '@mui/material/Button';
+import MidiWriter from 'midi-writer-js';
 import 'react-piano/dist/styles.css';
 
 const sendRequest = (pin, state) => {
@@ -63,11 +64,30 @@ const Keyboard = () => {
  const startRecording = () => {
     setRecording(true);
     console.log("Recording...");
+
+    // Send message to Pi telling it to start storing data
  }
 
  const stopRecording = () => {
     setRecording(false);
-    console.log("Recording...");
+    console.log("Done Recording");
+
+    // Receive note information from Pi to create MIDI file
+
+    // Create new MIDI track
+    const track = new MidiWriter.Track();
+    const note = new MidiWriter.NoteEvent({pitch: ['C4', 'E4', 'G4'], duration: '2'});
+    track.addEvent(note);
+
+    // Generate a data URI
+    const write = new MidiWriter.Writer(track);
+    const dataUri = write.dataUri();
+
+    // Create a temporary link element to trigger the download
+    const link = document.createElement('a');
+    link.href = dataUri;
+    link.download = 'generated_midi_file.mid'; // Default file name
+    link.click();
  }
 
  return (
