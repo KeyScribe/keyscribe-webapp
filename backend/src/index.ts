@@ -23,6 +23,8 @@ app.use(express.static(path.join(__dirname, '../../frontend/build')));
 app.use(express.static(path.join(__dirname, '../../frontend/public')));
 app.use(cors());
 
+app.use(cors());
+
 // DEFINE ROUTES HERE
 app.get('/*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));

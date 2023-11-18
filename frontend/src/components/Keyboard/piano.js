@@ -1,10 +1,12 @@
 import React from 'react';
+
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano';
 import 'react-piano/dist/styles.css';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
 const sendRequest = (note, state) => {
+
     fetch(`${apiURL}/led`, {
         method: 'POST',
         headers: {
@@ -31,6 +33,7 @@ const handleMouseDown = (midiNumber) => {
 const handleMouseUp = (midiNumber) => {
     sendRequest(midiNumber.toString(), '1');
 }
+
 
 const PianoKeyboard = () => {
     const firstNote = MidiNumbers.fromNote('c3');

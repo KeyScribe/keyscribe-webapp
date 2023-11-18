@@ -12,6 +12,7 @@ const ledOn = (req: Request, res: Response) => {
     const ledDuration = req.body.duration;
     const piId = req.body.id;
     sendMessageToRaspberryPi(piId, ledNote, ledState, ledStart, ledDuration);
+
     res.status(200);
     res.send();
   } else {
