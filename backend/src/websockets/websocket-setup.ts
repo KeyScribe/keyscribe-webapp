@@ -16,7 +16,7 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
       if (message.duration != -1 && message.start_time != -1){
         console.log('Duration: %d, Start time: %d', message.duration, message.start_time);
       }
-      sendMessageToRaspberryPi(message.pin.toString(), message.state.toString(), message.duration.toString(), message.start_time.toString());
+      sendMessageToRaspberryPi(message.id.toString(), message.pin.toString(), message.state.toString(), message.duration.toString(), message.start_time.toString());
     });
   }); 
 
@@ -26,7 +26,7 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
 const getWebsocketConnections = (): WebSocket[] => connections;
 
 // Function to send WebSocket messages to Raspberry Pi
-const sendMessageToRaspberryPi = (pin: string, state: string, start_time: string, duration: string) => {
+const sendMessageToRaspberryPi = (id: string, pin: string, state: string, start_time: string, duration: string) => {
   const connections = getWebsocketConnections();
 
   if (connections.length !== 0) {

@@ -13,6 +13,7 @@ const sendRequest = (pin, state) => {
     .then((response) => {
         if (response.ok) {
             console.log(`Successfully turned on ${pin} LED.`);
+            console.log(response.body.toString());
         } else {
             //console.error(`Failed to turn on ${color} LED.`);
             console.log(response.body);
