@@ -5,18 +5,20 @@ import Button from '@mui/material/Button';
 import MidiWriter from 'midi-writer-js';
 import 'react-piano/dist/styles.css';
 
-const sendRequest = (pin, state) => {
-    fetch('/keyboard/led', {
+const apiURL = process.env.REACT_APP_BACKEND_URL;
+
+const sendRequest = (note, state) => {
+    fetch(`${apiURL}/led`, {
         method: 'POST',
         //mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ pin: pin, state: state }),
+        body: JSON.stringify({ note: note, state: state }),
     })
     .then((response) => {
         if (response.ok) {
-            console.log(`Successfully turned on ${pin} LED.`);
+            console.log(`Successfully turned on ${note} LED.`);
             console.log(response.body.toString());
         } else {
             //console.error(`Failed to turn on ${color} LED.`);
