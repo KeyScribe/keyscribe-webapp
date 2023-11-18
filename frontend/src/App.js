@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Login from './components/Login/Login';
-import PianoKeyboard from './components/Keyboard/piano';
-
+import Keyboard from './components/Keyboard/Keyboard';
 
 function App() {
   return (

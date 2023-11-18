@@ -9,6 +9,8 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
   wss.on('connection', (ws) => {
     console.log('Connection requested');
 
+    connections.push(ws);
+
     ws.on('message', (message) => {
       console.log(message.toString());
     });
