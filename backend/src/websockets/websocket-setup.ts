@@ -11,8 +11,12 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
 
     connections.push(ws);
 
-    ws.on('message', (message) => {
-      console.log(message.toString());
+    ws.on('message', (raw_message) => {
+      const message = JSON.parse(raw_message.toString());
+      if (message.duration != -1 && message.start_time != -1){
+        console.log('Duration: %d, Start time: %d', message.duration, message.start_time);
+      }
+      sendMessageToRaspberryPi(message.id.toString(), message.note.toString(), message.state.toString(), message.duration.toString(), message.start_time.toString());
     });
   }); 
 
@@ -39,4 +43,4 @@ export {
   getWebsocketConnections,
   wsSetup,
   sendMessageToRaspberryPi,
-};
+};;

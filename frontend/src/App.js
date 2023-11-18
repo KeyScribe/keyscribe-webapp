@@ -11,8 +11,8 @@ function App() {
         <h1>Welcome to KeyScribe!</h1>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/welcome_teacher" element={<PianoKeyboard />} />
-          <Route path="/welcome_student" element={<PianoKeyboard />} />
+          <Route path="/welcome_teacher" element={<Keyboard />} />
+          <Route path="/welcome_student" element={<Keyboard />} />
         </Routes>
       </div>
     </BrowserRouter>

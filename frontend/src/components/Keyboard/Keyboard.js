@@ -28,6 +28,14 @@ const sendRequest = (pin, state) => {
     });
 }
 
+const handleMouseDown = (midiNumber) => {
+    sendRequest(midiNumber.toString(), '0')
+}
+
+const handleMouseUp = (midiNumber) => {
+    sendRequest(midiNumber.toString(), '1')
+}
+
 const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -127,10 +135,11 @@ const Keyboard = () => {
           noteRange={{ first: firstNote, last: lastNote }}
           playNote={(midiNumber) => {
             // Play a given note - see notes below
-            sendRequest(midiNumber.toString());
+            handleMouseDown(midiNumber)
           }}
           stopNote={(midiNumber) => {
             // Stop playing a given note - see notes below
+            handleMouseUp(midiNumber)
           }}
           width={500}
           keyboardShortcuts={keyboardShortcuts}
