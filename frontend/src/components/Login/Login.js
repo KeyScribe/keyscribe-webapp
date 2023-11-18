@@ -43,10 +43,11 @@ const Login = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' ? handleLogin() : ''}
          />
          </div>
          <div style={inputStyle}>
-         <button onClick={handleLogin}>Login</button>
+         <button onClick={handleLogin} onKeyDown={e => e.key === 'Enter' ? handleLogin() : ''}>Login</button>
          </div>
       </div>
    );
