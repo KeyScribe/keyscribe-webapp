@@ -1,7 +1,14 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import { Server } from 'https';
+import { JwtPayload, verify } from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import path from 'path';
+import { getConnectedKeyboards } from '../db/db';
 
-const connections: WebSocket[] = [];
+dotenv.config({ path: path.resolve(__dirname, '../../.env')});
+const JWT_SECRET: string = process.env.JWT_SECRET!;
+
+const connections: Map<number, WebSocket> = new Map();
 
 const wsSetup = (httpsServer: Server): WebSocketServer => {
   const wss = new WebSocketServer({ server: httpsServer, path: '/ws' });
@@ -9,38 +16,61 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
   wss.on('connection', (ws, req) => {
 
     // Check that request has valid JWT (with or without an associated user)
+    const authorization = req.headers.authorization!;
+    const [bearer, token] = authorization.split(' ');
 
-    // Store the websocket connection in our list of connections (TODO: somehow index by id)
-    connections.push(ws);
+    if(bearer !== 'Bearer') {
+      ws.close();
+      return;
+    }
+
+    verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) {
+        ws.close();
+      } else {
+        connections.set((decoded as JwtPayload)['PID'], ws);
+      }
+    });
 
     ws.on('message', (raw_message) => {
       const message = JSON.parse(raw_message.toString());
-      if (message.duration != -1 && message.start_time != -1){
-        console.log('Duration: %d, Start time: %d', message.duration, message.start_time);
-      }
-      sendMessageToRaspberryPi(message.id.toString(), message.note.toString(), message.state.toString(), message.duration.toString(), message.start_time.toString());
+
+      verify(message.token as string, JWT_SECRET, async (err, decoded) => {
+        if (err) {
+          ws.close();
+        } else {
+          if (message.duration != -1 && message.start_time != -1){
+            console.log('Duration: %d, Start time: %d', message.duration, message.start_time);
+          }
+    
+          const pairedKeyboards = await getConnectedKeyboards((decoded as JwtPayload)['PID'])
+
+          pairedKeyboards.forEach((id: number) => {
+            sendMessageToRaspberryPi(id, message.note.toString(), message.state.toString(), message.duration.toString(), message.start_time.toString());
+          });
+
+        }
+      });
+
     });
   }); 
 
   return wss;
 };
 
-const getWebsocketConnections = (): WebSocket[] => connections;
+const getWebsocketConnections = (): Map<number, WebSocket> => connections;
 
 // Function to send WebSocket messages to Raspberry Pi
-const sendMessageToRaspberryPi = (id: string, note: string, state: string, start_time: string, duration: string) => {
-  const connections = getWebsocketConnections();
+const sendMessageToRaspberryPi = (id: number, note: string, state: string, start_time: string, duration: string) => {
+  const ws = connections.get(id)!;
 
-  if (connections.length !== 0) {
-    // Loop through connected clients and send the message
-    connections.forEach((ws) => {
-      if (ws.readyState === WebSocket.OPEN) {
-        const message = JSON.stringify({ id, note, state, start_time, duration });
-        ws.send(message);
-      }
-    });
+  if (ws.readyState === WebSocket.OPEN) {
+    const message = JSON.stringify({ id, note, state, start_time, duration });
+    ws.send(message);
   }
 };
+
+
 export {
   getWebsocketConnections,
   wsSetup,

@@ -9,7 +9,7 @@ const JWT_SECRET: string = process.env.JWT_SECRET!;
 
 const authorizeKeyboard = async (req: Request, res: Response) => {
     
-    const hardwareId = parseInt(req.params.hardwareId);
+    const hardwareId = parseInt(req.query.hardwareId as string);
 
     // Hardware ID is confirmed to be valid
     if(!await validateHardwareId(hardwareId)) {
@@ -39,7 +39,7 @@ const authorizeKeyboard = async (req: Request, res: Response) => {
     );
 
     res.status(200);
-    res.send(jwt);
+    res.send({ token: jwt });
 };
 
 const claimKeyboard = async (req: Request, res: Response) => {
