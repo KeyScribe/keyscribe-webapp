@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../../frontend/build')));
 app.use(express.static(path.join(__dirname, '../../frontend/public')));
+app.use(cors());
 
 app.use(cors());
 
