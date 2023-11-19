@@ -6,9 +6,11 @@ const connections: WebSocket[] = [];
 const wsSetup = (httpsServer: Server): WebSocketServer => {
   const wss = new WebSocketServer({ server: httpsServer, path: '/ws' });
 
-  wss.on('connection', (ws) => {
-    console.log('Connection requested');
+  wss.on('connection', (ws, req) => {
 
+    // Check that request has valid JWT (with or without an associated user)
+
+    // Store the websocket connection in our list of connections (TODO: somehow index by id)
     connections.push(ws);
 
     ws.on('message', (raw_message) => {

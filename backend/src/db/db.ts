@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+import { Pool } from 'pg';
 
 const pool = new Pool({
   user: 'keyscribe',
@@ -9,4 +9,84 @@ const pool = new Pool({
   ssl: false
 });
 
-export {pool};
+/**
+ * Checks if the hardware id belongs to a valid board
+ * @param id The hardware id to check
+ * @returns True if the hardware id belongs to a valid board
+ */
+const validateHardwareId = async (id: number): Promise<boolean> => {
+  const query = `
+    SELECT 1
+    FROM known_hardware_ids
+    WHERE id = $1`;
+
+  const result = await pool.query(query, [id]);
+  
+  return result.rowCount !== 0;
+};
+
+/**
+ * Returns the PID associated with the PI if it exists,
+ * otherwise returns -1
+ * @param hardwareId The hardware id of the PI
+ */
+const getPID = async (hardwareId: number): Promise<number> => {
+
+  const select = `
+    SELECT id
+    FROM keyboards
+    WHERE hardware_id = $1`;
+
+  const pid = await pool.query(select, [hardwareId]);
+
+  if(pid.rowCount !== 0) {
+    return pid.rows[0].id;
+  } else {
+    return -1;
+  }
+};
+
+/**
+ * Returns the id of the owner of the keyboard, otherwise -1
+ * @param pid The pid of the Pi
+ */
+const getOwner = async (pid: number): Promise<number> => {
+
+  const select = `
+    SELECT owner
+    FROM keyboards
+    WHERE id = $1`;
+
+  const owner = await pool.query(select, [pid]);
+
+  if(owner.rowCount !== 0) {
+    return owner.rows[0].id;
+  } else {
+    return -1;
+  }
+};
+
+/**
+ * Creates a new keyboard and assigns it a PID
+ * @param hardwareId The hardware id of the Pi
+ */
+const createKeyboard = async (hardwareId: number) => {
+
+  const insert = `
+    INSERT INTO keyboards(id, hardware_id)
+    VALUES ($1, $2)`;
+
+  const newId = Math.random() * 99999999;
+
+  await pool.query(insert, [newId, hardwareId]);
+
+  return newId;
+
+}
+
+export {
+  validateHardwareId,
+  getPID,
+  getOwner,
+  createKeyboard,
+};

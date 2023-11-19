@@ -1,8 +1,5 @@
-import { WebSocket } from 'ws';
 import { Request, Response } from 'express';
-import { getWebsocketConnections, sendMessageToRaspberryPi } from '../websockets/websocket-setup';
-
-
+import { sendMessageToRaspberryPi } from '../websockets/websocket-setup';
 
 const ledOn = (req: Request, res: Response) => {
   if (req.body.note) {
