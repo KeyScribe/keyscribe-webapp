@@ -67,6 +67,25 @@ const getOwner = async (pid: number): Promise<number> => {
 };
 
 /**
+ * Sets the user as the owner of the keyboard
+ * @param userId The id of the user claiming the keyboard
+ * @param pid The id of the keyboard
+ * @returns True if successful
+ */
+const setOwner = async (userId: number, pid: number): Promise<boolean> => {
+
+  const update = `
+    UPDATE keyboards
+    SET owner = $1
+    WHERE owner IS NULL AND id = $2
+    RETURNING pid`;
+
+  const id = await pool.query(update, [userId, pid]);
+
+  return id.rowCount !== 0;
+};
+
+/**
  * Creates a new keyboard and assigns it a PID
  * @param hardwareId The hardware id of the Pi
  */
@@ -88,5 +107,6 @@ export {
   validateHardwareId,
   getPID,
   getOwner,
+  setOwner,
   createKeyboard,
 };
