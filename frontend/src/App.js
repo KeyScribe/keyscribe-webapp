@@ -9,7 +9,6 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <h1>Welcome to KeyScribe!</h1>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/welcome_teacher" element={<PianoKeyboard />} />

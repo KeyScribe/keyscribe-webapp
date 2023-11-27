@@ -105,7 +105,7 @@ const createKeyboard = async (hardwareId: number) => {
 
 const validateLogin = async (username: string, password: string): Promise<boolean> => {
 
-  const query = 'SELECT 1 FROM users_test WHERE username = $1 AND password = $2';
+  const query = 'SELECT 1 FROM users WHERE username = $1 AND password = $2';
 
   const result = await pool.query(query, [username, password]);
 
