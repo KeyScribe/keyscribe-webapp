@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Container, Background, LoginForm, FormField, Button, HeaderText , Input} from './Login.styled';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
@@ -16,7 +17,6 @@ const Login = () => {
            },
            body: JSON.stringify({ username, password }),
          });
-   
          if (response.status === 200) {
            console.log('Login successful');
            navigate('/welcome_teacher');
@@ -28,39 +28,31 @@ const Login = () => {
        }
    }
 
-   const inputStyle = {
-      marginBottom: '15px', // Increase the margin-bottom as needed for the input fields
-   };
-
-   const labelStyle = {
-      marginBottom: '15px', // Increase the margin-bottom as needed for the labels
-   };
-
    return (
-      <div>
-         <div style={inputStyle}>
-         <label style={labelStyle}>Username: </label>
-         <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-         />
-         </div>
-         <div style={inputStyle}>
-         <label style={labelStyle}>Password: </label>
-         <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' ? handleLogin() : ''}
-         />
-         </div>
-         <div style={inputStyle}>
-         <button onClick={handleLogin} onKeyDown={e => e.key === 'Enter' ? handleLogin() : ''}>Login</button>
-         </div>
-      </div>
+      <Container>
+         <Background />
+         <LoginForm>
+            <HeaderText>KeyScribe</HeaderText>
+            <FormField>
+               <Input 
+                  type="text" 
+                  placeholder="Username" 
+                  value={username} 
+                  onChange={(e) => setUsername(e.target.value)}
+               />
+            </FormField>
+            <FormField>
+               <Input 
+                  type="password" 
+                  placeholder="Password" 
+                  value={password} 
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' ? handleLogin() : ''}
+               />
+            </FormField>
+            <Button type="button" className="btn" onClick={handleLogin}>Login</Button>
+         </LoginForm>
+      </Container>
    );
 };
 

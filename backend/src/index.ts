@@ -23,8 +23,6 @@ app.use(express.static(path.join(__dirname, '../../frontend/build')));
 app.use(express.static(path.join(__dirname, '../../frontend/public')));
 app.use(cors());
 
-app.use(cors());
-
 // DEFINE ROUTES HERE
 
 app.use('/', routes);
