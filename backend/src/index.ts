@@ -26,11 +26,14 @@ app.use(cors());
 app.use(cors());
 
 // DEFINE ROUTES HERE
-app.get('/*', (req: Request, res: Response) => {
+
+app.use('/', routes);
+
+app.use((req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
 });
 
-app.use('/', routes);
+
 
 // START SERVER
 const server = https.createServer({
