@@ -6,7 +6,7 @@ const pool = new Pool({
   database: 'ks_db',
   password: 'Keyscribe',
   port: 5432, // Default PostgreSQL port
-  ssl: false
+  ssl: false,
 });
 
 /**
@@ -21,7 +21,7 @@ const validateHardwareId = async (id: number): Promise<boolean> => {
     WHERE id = $1`;
 
   const result = await pool.query(query, [id]);
-  
+
   return result.rowCount !== 0;
 };
 
@@ -31,7 +31,6 @@ const validateHardwareId = async (id: number): Promise<boolean> => {
  * @param hardwareId The hardware id of the PI
  */
 const getPID = async (hardwareId: number): Promise<number> => {
-
   const select = `
     SELECT id
     FROM keyboards
@@ -39,11 +38,10 @@ const getPID = async (hardwareId: number): Promise<number> => {
 
   const pid = await pool.query(select, [hardwareId]);
 
-  if(pid.rowCount !== 0) {
+  if (pid.rowCount !== 0) {
     return pid.rows[0].id;
-  } else {
-    return -1;
   }
+  return -1;
 };
 
 /**
@@ -51,7 +49,6 @@ const getPID = async (hardwareId: number): Promise<number> => {
  * @param pid The pid of the Pi
  */
 const getOwner = async (pid: number): Promise<number> => {
-
   const select = `
     SELECT owner
     FROM keyboards
@@ -59,11 +56,10 @@ const getOwner = async (pid: number): Promise<number> => {
 
   const owner = await pool.query(select, [pid]);
 
-  if(owner.rows[0].owner) {
+  if (owner.rows[0].owner) {
     return owner.rows[0].owner;
-  } else {
-    return -1;
   }
+  return -1;
 };
 
 /**
@@ -73,7 +69,6 @@ const getOwner = async (pid: number): Promise<number> => {
  * @returns True if successful
  */
 const setOwner = async (userId: number, pid: number): Promise<boolean> => {
-
   const update = `
     UPDATE keyboards
     SET owner = $1
@@ -90,7 +85,6 @@ const setOwner = async (userId: number, pid: number): Promise<boolean> => {
  * @param hardwareId The hardware id of the Pi
  */
 const createKeyboard = async (hardwareId: number) => {
-
   const insert = `
     INSERT INTO keyboards(id, hardware_id)
     VALUES ($1, $2)`;
@@ -100,21 +94,17 @@ const createKeyboard = async (hardwareId: number) => {
   await pool.query(insert, [newId, hardwareId]);
 
   return newId;
-
-}
+};
 
 const validateLogin = async (username: string, password: string): Promise<boolean> => {
-
   const query = 'SELECT 1 FROM users WHERE username = $1 AND password = $2';
 
   const result = await pool.query(query, [username, password]);
 
   return result.rowCount !== 0;
-
-}
+};
 
 const getConnectedKeyboards = async (id: number) => {
-
   const select = `
     SELECT teacher_keyboard as id
     FROM connections
@@ -126,15 +116,14 @@ const getConnectedKeyboards = async (id: number) => {
 
   const result = await pool.query(select, [id]);
 
-  let connectedIds: number[] = [];
+  const connectedIds: number[] = [];
 
   result.rows.forEach((row) => {
     connectedIds.push(row.id);
   });
 
   return connectedIds;
-
-} 
+};
 
 export {
   validateHardwareId,
