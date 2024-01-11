@@ -18,11 +18,6 @@ const ledOn = (req: Request, res: Response) => {
   }
 };
 
-const keyboard = (req: Request, res: Response) => {
-  res.sendFile('keyboard.html', { root: __dirname });
-};
-
 export {
   ledOn,
-  keyboard,
 };
