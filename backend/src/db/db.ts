@@ -1,4 +1,5 @@
 import { Pool } from 'pg';
+const bcrypt = require('bcrypt')
 
 const pool = new Pool({
   user: 'keyscribe',
@@ -105,12 +106,24 @@ const createKeyboard = async (hardwareId: number) => {
 
 const validateLogin = async (username: string, password: string): Promise<boolean> => {
 
-  const query = 'SELECT 1 FROM users WHERE username = $1 AND password = $2';
+  const query = 'SELECT password FROM users WHERE username = $1 LIMIT 1';
 
   const result = await pool.query(query, [username, password]);
 
-  return result.rowCount !== 0;
-
+  if (result.rowCount == 0) {
+    console.log(" The username is invalid.");
+    return false;
+  }
+  const [hashedPassword] = result.rows[0];
+  const isValid = await bcrypt.compare(password, hashedPassword);
+  if (isValid) {
+    // Password matches
+    return true;
+  }
+  else {
+    console.log(" The password is invalid.");
+    return false;
+  }
 }
 
 const getConnectedKeyboards = async (id: number) => {
