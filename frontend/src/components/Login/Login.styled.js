@@ -98,3 +98,16 @@ export const Button = styled.button`
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
     font-size: 17px;
 `
+export const CreateAccountButton = styled.button`
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    padding: 0.9rem 2.5rem;
+    text-align: center;
+    background-color: transparent;
+    text-decoration: underline;
+    color: #2986cc;
+    font-size: 14 px;
+`;
