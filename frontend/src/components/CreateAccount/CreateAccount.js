@@ -22,8 +22,15 @@ const CreateAccount = () => {
    };
 
    const handleSubmit = () => {
-      console.log('Form Data Submitted:', formData);
-      // API request to backend here
+      if (formData.password !== formData.confirmPassword) {
+         // client-side validation (TODO: server-side should also be added for security)
+         console.error('Password and Confirm Password do not match');
+         // TODO: show error message to user
+      }
+      else {
+         console.log('Form Data Submitted:', formData);
+         // API request to backend here
+      }
    };
 
    return (

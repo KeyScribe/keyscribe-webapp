@@ -19,7 +19,7 @@ const Login = () => {
          });
          if (response.status === 200) {
            console.log('Login successful');
-           navigate('/welcome_teacher');
+           navigate('/welcome');
       } else {
            console.error('Login failed');
          }
