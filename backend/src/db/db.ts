@@ -108,7 +108,7 @@ const validateLogin = async (username: string, password: string): Promise<boolea
 
   const query = 'SELECT password FROM users WHERE username = $1 LIMIT 1';
 
-  const result = await pool.query(query, [username, password]);
+  const result = await pool.query(query, [username]);
 
   if (result.rowCount == 0) {
     console.log(" The username is invalid.");
@@ -124,6 +124,14 @@ const validateLogin = async (username: string, password: string): Promise<boolea
     console.log(" The password is invalid.");
     return false;
   }
+}
+
+const registerUser = async (firstName: string, lastName: string, username: string, password: string, email:string) {
+  const query = 'INSERT INTO users VALUES ($1, $2, $3, $4, $5)';
+  const rounds = 20;
+
+  bcrypt.genSalt()
+  const result = await pool.query(query, [username, password, firstName, lastName, email])
 }
 
 const getConnectedKeyboards = async (id: number) => {
