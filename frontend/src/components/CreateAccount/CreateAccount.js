@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import { CreateAccountWrapper, CreateAccountForm, FormField } from '../CreateAccount/CreateAccount.styled';
 import { Background, HeaderText, Button, Input } from '../Login/Login.styled';
 
+const apiURL = process.env.REACT_APP_BACKEND_URL;
+
 const CreateAccount = () => {
+   const navigate = useNavigate()
    const [formData, setFormData] = useState({
       firstName: '',
       lastName: '',
@@ -21,7 +24,7 @@ const CreateAccount = () => {
    }));
    };
 
-   const handleSubmit = () => {
+   const handleSubmit = async () => {
       if (formData.password !== formData.confirmPassword) {
          // client-side validation (TODO: server-side should also be added for security)
          console.error('Password and Confirm Password do not match');
@@ -29,7 +32,30 @@ const CreateAccount = () => {
       }
       else {
          console.log('Form Data Submitted:', formData);
-         // API request to backend here
+         try {
+            const response = await fetch(`${apiURL}/login`, {
+               method: 'POST',
+               headers: {
+                  'Content-Type': 'application/json',
+               },
+               body: JSON.stringify({
+                  username: formData.username,
+                  password: formData.password,
+                  emailAddress: formData.emailAddress,
+                  firstName: formData.firstName,
+                  lastName: formData.lastName,
+               }),
+            });
+            if (response.status === 200) {
+               console.log('Account successfully created');
+               navigate('/login');
+            } else {
+               console.error('Error: User already exists!');
+            }
+         }
+         catch {
+
+         }
       }
    };
 
