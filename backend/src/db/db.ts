@@ -1,4 +1,5 @@
 import { Pool } from 'pg';
+const bcrypt = require('bcrypt')
 
 const pool = new Pool({
   user: 'keyscribe',
@@ -103,15 +104,33 @@ const createKeyboard = async (hardwareId: number) => {
 
 }
 
+/**
+ * Ensures that user credentials is correct
+ * @param username Username of the user
+ * @param password Password of the user
+ * @returns True if user exists in database
+ */
 const validateLogin = async (username: string, password: string): Promise<boolean> => {
+  const query = 'SELECT password FROM users WHERE username = $1 LIMIT 1';
 
-  const query = 'SELECT 1 FROM users WHERE username = $1 AND password = $2';
+  const result = await pool.query(query, [username]);
 
-  const result = await pool.query(query, [username, password]);
+  if (result.rowCount == 0) {
+    console.log(" The username is invalid.");
+    return false;
+  }
+  const [hashedPassword] = result.rows[0];
+  const isValid = await bcrypt.compare(password, hashedPassword);
+  if (isValid) {
+    // Password matches
+    return true;
+  }
+  else {
+    console.log(" The password is invalid.");
+    return false;
+  }
 
-  return result.rowCount !== 0;
-
-}
+};
 
 const getConnectedKeyboards = async (id: number) => {
 
@@ -133,8 +152,46 @@ const getConnectedKeyboards = async (id: number) => {
   });
 
   return connectedIds;
-
 } 
+
+/**
+ * Adds a user to the database. First checks if user exists
+ * @param username
+ * @param password
+ * @param email Used for password retrieval purposes
+ * @param firstName 
+ * @param lastName
+ * @returns True if user account creation was successful
+ */
+const createAccount = async (username: string, password: string, email: string, firstName: string, lastName: string) =>  {
+  const checkUser = `
+    SELECT EXISTS (
+      SELECT 1
+      FROM Users
+      WHERE username = $1
+      AND emailAddress = $2
+    )
+  `;
+  const userExists = await pool.query(checkUser, [username, email]);
+  if (userExists.rowCount == 1) {
+    return false; // User already exists in database
+  }
+  else {
+    // Create an account for the user
+    // Hash the password
+    const salt = await bcrypt.genSalt(20);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    // FIXME: Change insert query so that it returns an error if something went wrong.
+    const insert = `
+      INSERT INTO Users VALUES 
+      ($1, $2, $3, $4, $5)
+    `;
+
+    const result = await pool.query(insert, [username, hashedPassword, firstName, lastName, email])
+    return true;
+  }
+};
+
 
 export {
   validateHardwareId,
@@ -144,4 +201,5 @@ export {
   createKeyboard,
   validateLogin,
   getConnectedKeyboards,
+  createAccount,
 };
