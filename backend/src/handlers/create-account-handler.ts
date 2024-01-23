@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { createAccount } from '../db/db'
 
-const loginHandler = async (req: Request, res: Response) => { 
+const registerHandler = async (req: Request, res: Response) => { 
   const { username, password, emailAddress, firstName, lastName} = req.body;
+  // First sanitize emailAddress, username and password
   try {
     // Confirm that confirmPassword and password are the same
     if (!await createAccount(username, password, emailAddress, firstName, lastName)) {
@@ -17,4 +18,4 @@ const loginHandler = async (req: Request, res: Response) => {
   }
 }
 
-export { loginHandler }
+export { registerHandler }
