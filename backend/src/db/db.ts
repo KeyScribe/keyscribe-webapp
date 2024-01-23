@@ -167,28 +167,28 @@ const createAccount = async (username: string, password: string, email: string, 
   const checkUser = `
     SELECT EXISTS (
       SELECT 1
-      FROM Users
+      FROM users
       WHERE username = $1
       AND emailAddress = $2
     )
   `;
   const userExists = await pool.query(checkUser, [username, email]);
-  if (userExists.rowCount == 1) {
+  const exists = userExists.rows[0].exists;
+  if (exists) {
     return false; // User already exists in database
   }
   else {
     // Create an account for the user
     // Hash the password
-    const salt = await bcrypt.genSalt(20);
+    const salt = await bcrypt.genSalt(11);
     const hashedPassword = await bcrypt.hash(password, salt);
-    // FIXME: Change insert query so that it returns an error if something went wrong.
     const insert = `
-      INSERT INTO Users VALUES 
-      ($1, $2, $3, $4, $5)
+      INSERT INTO Users (username, password, firstname, lastname, emailaddress, user_id) VALUES 
+      ($1, $2, $3, $4, $5, gen_random_uuid())
     `;
 
     const result = await pool.query(insert, [username, hashedPassword, firstName, lastName, email])
-    return true;
+    return result.rowCount === 1;
   }
 };
 
