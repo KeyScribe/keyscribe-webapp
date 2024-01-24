@@ -51,7 +51,7 @@ const getPID = async (hardwareId: number): Promise<number> => {
  * Returns the id of the owner of the keyboard, otherwise -1
  * @param pid The pid of the Pi
  */
-const getOwner = async (pid: number): Promise<number> => {
+const getOwner = async (pid: number): Promise<string> => {
 
   const select = `
     SELECT owner
@@ -63,7 +63,7 @@ const getOwner = async (pid: number): Promise<number> => {
   if(owner.rows[0].owner) {
     return owner.rows[0].owner;
   } else {
-    return -1;
+    return "";
   }
 };
 

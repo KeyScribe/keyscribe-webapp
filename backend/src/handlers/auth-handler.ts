@@ -20,12 +20,12 @@ const authorizeKeyboard = async (req: Request, res: Response) => {
     // If the keyboard is already registered, get its ID,
     // otherwise create a new keyboard in DB
     let pid = await getPID(hardwareId)
-    let owner: number;
+    let owner: string;
 
     if(pid !== -1){
         owner = await getOwner(pid);
     } else {
-        owner = -1;
+        owner = "";
         pid = await createKeyboard(hardwareId)
     }
 
