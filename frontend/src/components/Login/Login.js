@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Background, LoginForm, FormField, Button, HeaderText , Input} from './Login.styled';
+import { Container, Background, LoginForm, FormField, Button, HeaderText, Input, CreateAccountButton} from './Login.styled';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
@@ -19,13 +19,16 @@ const Login = () => {
          });
          if (response.status === 200) {
            console.log('Login successful');
-           navigate('/welcome_teacher');
-         } else {
+           navigate('/welcome');
+      } else {
            console.error('Login failed');
          }
        } catch (error) {
          console.error('Error during login', error);
        }
+   }
+   const handleCreateAccount = async () => {
+      navigate('/create_account');
    }
 
    return (
@@ -51,6 +54,7 @@ const Login = () => {
                />
             </FormField>
             <Button type="button" className="btn" onClick={handleLogin}>Login</Button>
+            <CreateAccountButton onClick={handleCreateAccount}>Create Account</CreateAccountButton>
          </LoginForm>
       </Container>
    );
