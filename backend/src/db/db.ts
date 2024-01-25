@@ -119,7 +119,8 @@ const validateLogin = async (username: string, password: string): Promise<boolea
     console.log(" The username is invalid.");
     return false;
   }
-  const [hashedPassword] = result.rows[0];
+  
+  const hashedPassword = result.rows[0].password;
   const isValid = await bcrypt.compare(password, hashedPassword);
   if (isValid) {
     // Password matches

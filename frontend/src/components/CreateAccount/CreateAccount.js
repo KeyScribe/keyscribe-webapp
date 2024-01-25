@@ -33,7 +33,7 @@ const CreateAccount = () => {
       else {
          console.log('Form Data Submitted:', formData);
          try {
-            const response = await fetch(`${apiURL}/login`, {
+            const response = await fetch(`${apiURL}/register`, {
                method: 'POST',
                headers: {
                   'Content-Type': 'application/json',

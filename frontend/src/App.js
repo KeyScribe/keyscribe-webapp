@@ -12,6 +12,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/Login" element={<Login />} />
           <Route path="/welcome_teacher" element={<Keyboard />} />
           <Route path="/welcome_student" element={<Keyboard />} />
           <Route path="/welcome" element={<Welcome />} />
