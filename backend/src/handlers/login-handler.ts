@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { validateLogin } from '../db/db'
+import { validateLogin } from '../db/db';
 
-const loginHandler = async (req: Request, res: Response) => { 
-  const {username, password} = req.body;
+const loginHandler = async (req: Request, res: Response) => {
+  const { username, password } = req.body;
   try {
     if (!await validateLogin(username, password)) {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -14,6 +14,9 @@ const loginHandler = async (req: Request, res: Response) => {
     console.error('Error during login', error);
     return res.status(500).json({ error: 'Login failed' });
   }
-}
+};
 
-export { loginHandler }
+export {
+  // eslint-disable-next-line import/prefer-default-export
+  loginHandler,
+};

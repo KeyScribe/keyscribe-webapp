@@ -31,8 +31,6 @@ app.use((req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
 });
 
-
-
 // START SERVER
 const server = https.createServer({
   key: fs.readFileSync('keys/key.pem'),
