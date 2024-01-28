@@ -12,5 +12,6 @@ const getName = async (id: string): Promise<string> => {
 };
 
 export {
+  // eslint-disable-next-line import/prefer-default-export
   getName,
 };

@@ -10,7 +10,7 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 const JWT_SECRET: string = process.env.JWT_SECRET!;
 
 const authorizeKeyboard = async (req: Request, res: Response) => {
-  const hardwareId = parseInt(req.query.hardwareId as string);
+  const hardwareId = parseInt(req.query.hardwareId as string, 10);
 
   // Hardware ID is confirmed to be valid
   if (!await validateHardwareId(hardwareId)) {
@@ -48,8 +48,8 @@ const authorizeKeyboard = async (req: Request, res: Response) => {
  */
 const claimKeyboard = async (req: Request, res: Response) => {
   // User initiates request to claim an unclaimed keyboard
-  const requestedPID = parseInt(req.params.pid);
-  const userId = parseInt(req.params.userId); // FIXME: User id should be a part of the session
+  const requestedPID = parseInt(req.params.pid, 10);
+  const userId = parseInt(req.params.userId, 10); // FIXME: User id should be a part of the session
 
   // NOT IMPLEMENTED FOR DESIGN PROTOTYPE: Keyboard consents to being claimed
 
@@ -66,7 +66,7 @@ const claimKeyboard = async (req: Request, res: Response) => {
     );
 
     res.status(200);
-    res.send();
+    res.send(jwt);
   } else {
     res.status(400);
     res.send('Keyboard already owned by another');

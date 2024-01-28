@@ -12,7 +12,7 @@ const validateLogin = async (username: string, password: string): Promise<Expres
 
   const result = await queryPool(query, [username]);
 
-  if (result.rowCount == 0) {
+  if (result.rowCount === 0) {
     return null;
   }
 
@@ -32,14 +32,14 @@ const validateLogin = async (username: string, password: string): Promise<Expres
 
 /**
  * Adds a user to the database. First checks if user exists
- * @param username
+ * @param user
  * @param password
  * @param email Used for password retrieval purposes
  * @param firstName
  * @param lastName
  * @returns True if user account creation was successful
  */
-const createAccount = async (username: string, password: string, email: string, firstName: string, lastName: string) => {
+const createAccount = async (user: string, password: string, email: string, firstName: string, lastName: string) => {
   const checkUser = `
     SELECT EXISTS (
       SELECT 1
@@ -48,7 +48,7 @@ const createAccount = async (username: string, password: string, email: string, 
       AND emailAddress = $2
     )
   `;
-  const userExists = await queryPool(checkUser, [username, email]);
+  const userExists = await queryPool(checkUser, [user, email]);
   const { exists } = userExists.rows[0];
   if (exists) {
     return false; // User already exists in database
@@ -63,7 +63,7 @@ const createAccount = async (username: string, password: string, email: string, 
       ($1, $2, $3, $4, $5, gen_random_uuid())
     `;
 
-  const result = await queryPool(insert, [username, hashedPassword, firstName, lastName, email]);
+  const result = await queryPool(insert, [user, hashedPassword, firstName, lastName, email]);
   return result.rowCount === 1;
 };
 

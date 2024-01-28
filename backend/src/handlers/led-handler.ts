@@ -16,5 +16,6 @@ const ledOn = (req: Request, res: Response) => {
 };
 
 export {
+  // eslint-disable-next-line import/prefer-default-export
   ledOn,
 };
