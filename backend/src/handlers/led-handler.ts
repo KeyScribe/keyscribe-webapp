@@ -4,11 +4,8 @@ import { sendMessageToRaspberryPi } from '../websockets/websocket-setup';
 const ledOn = (req: Request, res: Response) => {
   if (req.body.note) {
     const ledNote = req.body.note;
-    const ledState = req.body.state;
-    const ledStart = req.body.start_time;
-    const ledDuration = req.body.duration;
     const piId = req.body.id;
-    sendMessageToRaspberryPi(piId, ledNote, ledState, ledStart, ledDuration);
+    sendMessageToRaspberryPi(piId, ledNote);
 
     res.status(200);
     res.send();
