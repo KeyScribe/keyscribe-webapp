@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { sign } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import path from 'path';
-import { validateHardwareId, getPID, getOwner, setOwner, createKeyboard } from '../db/db';
+import { validateHardwareId, getPID, getOwner, setOwner, createKeyboard } from '../db/auth-db';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env')});
 const JWT_SECRET: string = process.env.JWT_SECRET!;
