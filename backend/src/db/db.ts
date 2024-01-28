@@ -62,7 +62,6 @@ const getOwner = async (pid: number): Promise<string> => {
   } else {
     return "";
   }
-  return -1;
 };
 
 /**
