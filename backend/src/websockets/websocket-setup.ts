@@ -13,10 +13,10 @@ const connections: Map<number, WebSocket> = new Map();
 // Function to send WebSocket messages to Raspberry Pi
 const sendMessageToRaspberryPi = (id: number, note: string) => {
   const ws = connections.get(id);
-  
+
   if (ws && ws.readyState === WebSocket.OPEN) {
     const message = JSON.stringify({
-      id, note
+      id, note,
     });
     ws.send(message);
   }
@@ -53,7 +53,7 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
           const pairedKeyboards = await getConnectedKeyboards((decoded as JwtPayload).PID);
 
           pairedKeyboards.forEach((id: number) => {
-            if (message.note !== "[]") {
+            if (message.note !== '[]') {
               sendMessageToRaspberryPi(
                 id,
                 message.note.toString(),

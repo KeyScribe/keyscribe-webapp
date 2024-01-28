@@ -1,5 +1,5 @@
-import { queryPool } from "./db-setup";
 import bcrypt from 'bcrypt';
+import { queryPool } from './db-setup';
 
 /**
  * Ensures that user credentials is correct
@@ -15,20 +15,19 @@ const validateLogin = async (username: string, password: string): Promise<Expres
   if (result.rowCount == 0) {
     return null;
   }
-  
+
   const hashedPassword = result.rows[0].password;
   const isValid = await bcrypt.compare(password, hashedPassword);
   if (isValid) {
     // Password matches
     return {
-        username: result.rows[0].username,
-        email: result.rows[0].emailaddress,
-        id: result.rows[0].user_id,
+      username: result.rows[0].username,
+      email: result.rows[0].emailaddress,
+      id: result.rows[0].user_id,
     };
   }
-  else {
-    return null;
-  }
+
+  return null;
 };
 
 /**
@@ -36,11 +35,11 @@ const validateLogin = async (username: string, password: string): Promise<Expres
  * @param username
  * @param password
  * @param email Used for password retrieval purposes
- * @param firstName 
+ * @param firstName
  * @param lastName
  * @returns True if user account creation was successful
  */
-const createAccount = async (username: string, password: string, email: string, firstName: string, lastName: string) =>  {
+const createAccount = async (username: string, password: string, email: string, firstName: string, lastName: string) => {
   const checkUser = `
     SELECT EXISTS (
       SELECT 1
@@ -50,27 +49,25 @@ const createAccount = async (username: string, password: string, email: string, 
     )
   `;
   const userExists = await queryPool(checkUser, [username, email]);
-  const exists = userExists.rows[0].exists;
+  const { exists } = userExists.rows[0];
   if (exists) {
     return false; // User already exists in database
   }
-  else {
-    // Create an account for the user
-    // Hash the password
-    const salt = await bcrypt.genSalt(11);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const insert = `
+
+  // Create an account for the user
+  // Hash the password
+  const salt = await bcrypt.genSalt(11);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  const insert = `
       INSERT INTO Users (username, password, firstname, lastname, emailaddress, user_id) VALUES 
       ($1, $2, $3, $4, $5, gen_random_uuid())
     `;
 
-    const result = await queryPool(insert, [username, hashedPassword, firstName, lastName, email])
-    return result.rowCount === 1;
-  }
+  const result = await queryPool(insert, [username, hashedPassword, firstName, lastName, email]);
+  return result.rowCount === 1;
 };
 
 const getUserById = async (id: string): Promise<Express.User | null> => {
-
   const query = 'SELECT username, emailaddress FROM users WHERE user_id = $1';
 
   const result = await queryPool(query, [id]);
@@ -82,10 +79,9 @@ const getUserById = async (id: string): Promise<Express.User | null> => {
   return {
     username: result.rows[0].username,
     email: result.rows[0].emailaddress,
-    id: id,
+    id,
   };
 };
-
 
 export {
   validateLogin,

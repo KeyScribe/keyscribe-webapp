@@ -5,20 +5,24 @@ import Login from './components/Login/Login';
 import Keyboard from './components/Keyboard/Keyboard';
 import CreateAccount from './components/CreateAccount/CreateAccount';
 import Welcome from './components/Welcome/Welcome';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import { AuthProvider } from './components/AuthContext/AuthContext';
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/welcome_teacher" element={<Keyboard />} />
-          <Route path="/welcome_student" element={<Keyboard />} />
-          <Route path="/welcome" element={<Welcome />} />
-          <Route path="/create_account" element={<CreateAccount />} />
-        </Routes>
-      </div>
+      <AuthProvider>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/welcome_teacher" element={<Keyboard />} />
+            <Route path="/welcome_student" element={<Keyboard />} />
+            <Route path="/welcome" element={<ProtectedRoute><Welcome /></ProtectedRoute>} />
+            <Route path="/create_account" element={<CreateAccount />} />
+          </Routes>
+        </div>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

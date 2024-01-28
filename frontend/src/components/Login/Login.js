@@ -1,31 +1,26 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext/AuthContext'
 import { Container, Background, LoginForm, FormField, Button, HeaderText, Input, CreateAccountButton} from './Login.styled';
-
-const apiURL = process.env.REACT_APP_BACKEND_URL;
 
 const Login = () => {
    const navigate = useNavigate();
+   const { login } = useAuth();
    const [username, setUsername] = useState('');
    const [password, setPassword] = useState('');
    const handleLogin = async () => {
       try {
-         const response = await fetch(`${apiURL}/login`, {
-           method: 'POST',
-           headers: {
-             'Content-Type': 'application/json',
-           },
-           body: JSON.stringify({ username, password }),
-         });
-         if (response.status === 200) {
-           console.log('Login successful');
-           navigate('/welcome');
-      } else {
-           console.error('Login failed');
+         if (username && password) {
+            if(await login(username, password)) {
+               navigate('/welcome');
+            }
+            else {
+               console.error('Incorrect username and password');
+            }
          }
-       } catch (error) {
+      } catch (error) {
          console.error('Error during login', error);
-       }
+      }
    }
    const handleCreateAccount = async () => {
       navigate('/create_account');
