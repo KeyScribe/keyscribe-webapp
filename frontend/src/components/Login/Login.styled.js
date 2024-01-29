@@ -97,6 +97,12 @@ export const Button = styled.button`
     border-radius: 4px;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
     font-size: 17px;
+
+    &:disabled {
+        background-color: #d3d3d3;
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
 `
 export const CreateAccountButton = styled.button`
     outline: none;

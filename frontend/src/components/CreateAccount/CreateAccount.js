@@ -25,39 +25,37 @@ const CreateAccount = () => {
    };
 
    const handleSubmit = async () => {
-      if (formData.password !== formData.confirmPassword) {
-         // client-side validation (TODO: server-side should also be added for security)
-         console.error('Password and Confirm Password do not match');
-         // TODO: show error message to user
+      console.log('Form Data Submitted:', formData);
+      try {
+         const response = await fetch(`${apiURL}/register`, {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+               username: formData.username,
+               password: formData.password,
+               emailAddress: formData.emailAddress,
+               firstName: formData.firstName,
+               lastName: formData.lastName,
+            }),
+         });
+         if (response.status === 200) {
+            console.log('Account successfully created');
+            navigate('/login');
+         } else {
+            console.error('Error: User already exists!');
+         }
       }
-      else {
-         console.log('Form Data Submitted:', formData);
-         try {
-            const response = await fetch(`${apiURL}/register`, {
-               method: 'POST',
-               headers: {
-                  'Content-Type': 'application/json',
-               },
-               body: JSON.stringify({
-                  username: formData.username,
-                  password: formData.password,
-                  emailAddress: formData.emailAddress,
-                  firstName: formData.firstName,
-                  lastName: formData.lastName,
-               }),
-            });
-            if (response.status === 200) {
-               console.log('Account successfully created');
-               navigate('/login');
-            } else {
-               console.error('Error: User already exists!');
-            }
-         }
-         catch {
+      catch {
 
-         }
       }
    };
+
+   const fieldsFilled = formData.firstName && formData.lastName && formData.emailAddress && formData.username && formData.password && formData.confirmPassword;
+   const confirmPasswordMatching = formData.password === formData.confirmPassword && formData.confirmPassword !== '';
+   const rePW = RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
+
 
    return (
       <CreateAccountWrapper data-testid="CreateAccount">
@@ -108,6 +106,18 @@ const CreateAccount = () => {
                      onChange={handleInputChange}
                   />
                </FormField>
+               {
+                  formData.password === '' || rePW.test(formData.password) ? null : 
+                  <span style ={{
+                     fontSize: '13px',
+                     position: 'relative',
+                     top: '-11px',
+                     display: 'block',
+                     textAlign: 'left',
+                     fontWeight: 'bold',
+                     color: 'pink',
+                  }}>Password should have at least 8 characters, one capital letter, one number</span>
+               }
                <FormField>
                   <Input 
                      type="password" 
@@ -117,7 +127,13 @@ const CreateAccount = () => {
                      onChange={handleInputChange}
                   />
                </FormField>
-               <Button type="button" className="btn" onClick={handleSubmit}>Confirm</Button>
+               <Button 
+                     type="button" 
+                     className="btn" 
+                     onClick={handleSubmit}
+                     disabled={!fieldsFilled || !confirmPasswordMatching}
+                     >
+                        Confirm</Button>
             </CreateAccountForm>
       </CreateAccountWrapper>
    );
