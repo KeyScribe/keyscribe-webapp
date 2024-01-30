@@ -1,22 +1,25 @@
 import { Request, Response } from 'express';
-import { validateLogin } from '../db/db';
+import { createAccount } from '../db/login-db';
 
-const loginHandler = async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+const loginHandler = (req: Request, res: Response) => res.status(200).send();
+
+const registerHandler = async (req: Request, res: Response) => {
+  const {
+    username, password, emailAddress, firstName, lastName,
+  } = req.body;
   try {
-    if (!await validateLogin(username, password)) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+    if (!await createAccount(username, password, emailAddress, firstName, lastName)) {
+      res.status(401).json({ error: 'User already exists!' });
     } else {
-      return res.status(200).json({ message: 'Login successful' });
+      res.status(200).json({ message: 'Account creation successful' });
     }
-  }
-  catch (error) {
-    console.error('Error during login', error);
-    return res.status(500).json({ error: 'Login failed' });
+  } catch (error) {
+    console.error('Error during account creation: ', error);
+    res.status(500).json({ error: 'Login failed' });
   }
 };
 
 export {
-  // eslint-disable-next-line import/prefer-default-export
   loginHandler,
+  registerHandler,
 };
