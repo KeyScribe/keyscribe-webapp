@@ -5,7 +5,11 @@ import https from 'https';
 import fs from 'fs';
 import path from 'path';
 import bodyParser from 'body-parser';
+import session from 'express-session';
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
 import { wsSetup } from './websockets/websocket-setup';
+import { validateLogin, getUserById } from './db/login-db';
 
 // ROUTES
 import routes from './routes/routes';
@@ -22,10 +26,42 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../../frontend/build')));
 app.use(express.static(path.join(__dirname, '../../frontend/public')));
 app.use(cors());
+app.use(session({
+  secret: process.env.SESSION_SECRET!,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: true },
+}));
+
+// PASSPORT SETUP
+passport.use(new LocalStrategy(
+  async (username, password, done) => {
+    try {
+      const user = await validateLogin(username, password);
+      if (user === null) {
+        return done(null, false, { message: 'Invalid credentials' });
+      }
+      return done(null, user);
+    } catch (error) {
+      return done(error);
+    }
+  },
+));
+
+passport.serializeUser((user: Express.User, done) => {
+  process.nextTick(() => done(null, user.id));
+});
+
+passport.deserializeUser((id: string, done) => {
+  process.nextTick(async () => done(null, await getUserById(id)));
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // DEFINE ROUTES HERE
 
-app.use('/', routes);
+app.use('/api', routes);
 
 app.use((req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));

@@ -3,7 +3,7 @@ import { Server } from 'https';
 import { JwtPayload, verify } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import path from 'path';
-import { getConnectedKeyboards } from '../db/db';
+import { getConnectedKeyboards } from '../db/ws-db';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 const JWT_SECRET: string = process.env.JWT_SECRET!;
@@ -12,12 +12,11 @@ const connections: Map<number, WebSocket> = new Map();
 
 // Function to send WebSocket messages to Raspberry Pi
 const sendMessageToRaspberryPi = (id: number, note: string) => {
-  const ws = connections.get(id);  
-  // console.log("Reached 1")
+  const ws = connections.get(id);
 
   if (ws && ws.readyState === WebSocket.OPEN) {
     const message = JSON.stringify({
-      id, note
+      id, note,
     });
     ws.send(message);
   }
@@ -49,15 +48,12 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
 
       verify(message.token as string, JWT_SECRET, async (err, decoded) => {
         if (err) {
-          // console.log("Error")
           ws.close();
         } else {
-          // console.log('Empty')
           const pairedKeyboards = await getConnectedKeyboards((decoded as JwtPayload).PID);
 
           pairedKeyboards.forEach((id: number) => {
-            if (message.note !== "[]") {
-              // console.log('Note: ', message.note)
+            if (message.note !== '[]') {
               sendMessageToRaspberryPi(
                 id,
                 message.note.toString(),

@@ -15,10 +15,8 @@ describe('LED Handler Tests', () => {
     });
 
     it('Demo to show tests are working', () => {
-
       // Write future tests in this place
       assert.isTrue(true);
-
     });
   });
 });
