@@ -8,6 +8,7 @@ const getName = async (id: string): Promise<string> => {
   if (result.rowCount === 0) {
     return '';
   }
+  console.log("firstname: ", result.rows[0].firstname)
   return result.rows[0].firstname;
 };
 
