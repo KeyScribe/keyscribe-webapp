@@ -6,16 +6,22 @@ const apiURL = process.env.REACT_APP_BACKEND_URL;
 const Welcome = () => {
    const [name, setName] = useState('');
 
-   useEffect(async () => {
-      fetch(`${apiURL}/getUserInfo`)
-         .then(response => response.json())
-         .then(data => setName(data.name))
-         .catch(error => console.error(error));
+   useEffect(() => {
+      const fetchData = async () => {
+         try {
+            const response = await fetch(`${apiURL}/getUserInfo`);
+            const data = await response.json();
+            setName(data.name);
+         } catch(error) {
+            console.error(error);
+         }
+      };
+      fetchData();
    }, []);
 
    return (
       <WelcomeWrapper data-testid="Welcome">
-         <h1>Welcome {name}!</h1>
+         <h1>Welcome, {name}!</h1>
       </WelcomeWrapper>
    );
 };
