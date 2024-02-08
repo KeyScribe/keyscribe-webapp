@@ -27,4 +27,15 @@ export const CardWrapper = styled(Container)`
     transform: translate(-50%, -50%);
     z-index: 9999;
     background-color: white;
+    display: flex;
+`;
+
+export const FormWrapper = styled(Container)`
+    border: 1px solid red; // temp    
+    padding: 5ex;
+`;
+
+export const InputWrapper = styled(Container)`
+    border: 1px solid black; // temp
+    padding: 3ex;
 `;

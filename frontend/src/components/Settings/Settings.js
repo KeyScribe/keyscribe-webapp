@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { SettingsWrapper, UserInfoWrapper, BoardsListWrapper, FriendsListWrapper, CardWrapper } from './Settings.styled';
+import { SettingsWrapper, UserInfoWrapper, BoardsListWrapper, FriendsListWrapper, CardWrapper, InputWrapper, FormWrapper } from './Settings.styled';
 import { Button, Input } from '../Login/Login.styled';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -50,18 +50,24 @@ const Settings = () => {
                <Card>
                   <CardContent>
                      <h2>Add Board</h2>
-                     <FormField>
-                        <Input
-                           type="text" 
-                           name="boardName"
-                           placeholder="Board Name" 
-                        />
-                        <Input
-                           type="text" 
-                           name="boardId"
-                           placeholder="Board ID" 
-                        />
-                     </FormField>
+                     <FormWrapper>
+                        <FormField>
+                           <InputWrapper>
+                              <Input
+                                 type="text" 
+                                 name="boardName"
+                                 placeholder="Board Name" 
+                              />
+                           </InputWrapper>
+                           <InputWrapper>
+                              <Input
+                                 type="text" 
+                                 name="boardId"
+                                 placeholder="Board ID"
+                              />
+                           </InputWrapper>
+                        </FormField>
+                     </FormWrapper>
                      <Button type='button' onClick={closeBoardCard}>Cancel</Button>
                      <Button type='button'>Confirm</Button>
                   </CardContent>
@@ -72,10 +78,21 @@ const Settings = () => {
          {showFriendCard && (
             <CardWrapper>
                <Card>
-                  <CardContent>
+               <CardContent>
                      <h2>Add Friend</h2>
-                     <p>test add friend</p>
-                     <Button type='button' onClick={closeFriendCard}>Close</Button>
+                     <FormWrapper>
+                        <FormField>
+                           <InputWrapper>
+                              <Input
+                                 type="text" 
+                                 name="friendName"
+                                 placeholder="Friend Name" 
+                              />
+                           </InputWrapper>
+                        </FormField>
+                     </FormWrapper>
+                     <Button type='button' onClick={closeFriendCard}>Cancel</Button>
+                     <Button type='button'>Confirm</Button>
                   </CardContent>
                </Card>
             </CardWrapper>
