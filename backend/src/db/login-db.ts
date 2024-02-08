@@ -75,7 +75,6 @@ const getUserById = async (id: string): Promise<Express.User | null> => {
   if (result.rowCount === 0) {
     return null;
   }
-
   return {
     username: result.rows[0].username,
     email: result.rows[0].emailaddress,
