@@ -23,7 +23,9 @@ jobs:
             command: 'build'
             Dockerfile: '**/Dockerfile'
         - task: AzureCLI@2
-          displayName: ''
+          displayName: 'Run Docker Compose on VM'
+          inputs:
+            azureSubscription: 
 
 
   
