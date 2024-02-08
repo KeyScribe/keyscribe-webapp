@@ -19,7 +19,6 @@ const registerHandler = async (req: Request, res: Response) => {
 };
 
 const logoutHandler = async (req: Request, res: Response) => {
-  console.log('received'); // fixme adam
   req.logout((err) => {
     if (err) {
       res.status(500).send();
