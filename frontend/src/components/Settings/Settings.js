@@ -1,18 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { SettingsWrapper, UserInfoWrapper, BoardsListWrapper, FriendsListWrapper } from './Settings.styled';
 import { Button } from '../Login/Login.styled';
+import { BackWelcomeButton } from './Settings.styled';
+
+const apiURL = process.env.REACT_APP_BACKEND_URL;
 
 const Settings = () => {
+   const navigate = useNavigate();
+   const [name, setName] = useState('');
+   const [username, setUsername] = useState('');
+   const [emailaddress, setEmailAddress] = useState('');
+
+   useEffect(() => {
+      const fetchData = async () => {
+         try {
+            const response = await fetch(`${apiURL}/getUserInfo`);
+            const data = await response.json();
+            setName(data.first);
+            setUsername(data.user);
+            setEmailAddress(data.email);
+         } catch(error) {
+            console.error(error);
+         }
+      };
+      fetchData();
+   }, []);
+
+   const handleBackWelcome = async () => {
+      navigate('/welcome');
+   }
 
    return (
       <SettingsWrapper>
          <UserInfoWrapper className='user-info-list'>
             <h1>User Information</h1>
-            <p>First Name: </p>
+            <p>First Name: {name}</p>
             <p>Last Name: </p>
-            <p>Username: </p>
-            <p>Email: </p>
+            <p>Username: {username}</p>
+            <p>Email: {emailaddress}</p>
          </UserInfoWrapper>
          <BoardsListWrapper className='boards-list'>
             <h1>My Boards</h1>
@@ -22,6 +49,7 @@ const Settings = () => {
             <h1>My Friends</h1>
             <Button type='button'>Add Friend</Button>
          </FriendsListWrapper>
+         <BackWelcomeButton onClick={handleBackWelcome}>Back to Welcome</BackWelcomeButton>
       </SettingsWrapper>
    );
 };
