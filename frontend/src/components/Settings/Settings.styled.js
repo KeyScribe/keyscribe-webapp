@@ -8,13 +8,23 @@ export const SettingsWrapper = styled.div`
 `;
 
 export const UserInfoWrapper = styled(Container)`
-    justify-content: left;
+    border: 1px solid black; // temp
 `;
 
 export const FriendsListWrapper = styled(Container)`
-    justify-content: right;
+    border: 1px solid black; // temp
 `;
 
 export const BoardsListWrapper = styled(Container)`
-    justify-content: left;
+    border: 1px solid black; // temp
+`;
+
+export const CardWrapper = styled(Container)`
+    border: 1px solid black; // temp
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background-color: white;
 `;
