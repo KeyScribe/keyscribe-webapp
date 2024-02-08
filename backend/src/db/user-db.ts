@@ -11,6 +11,7 @@ const getInfo = async (id: string): Promise<any> => {
   console.log("firstname: ", result.rows[0].firstname)
   console.log("username: ", result.rows[0].username)
   console.log("email: ", result.rows[0].emailaddress)
+  console.log("firstname: ", result.rows[0].firstname)
   return {
     first: result.rows[0].firstname, 
     user: result.rows[0].username,

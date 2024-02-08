@@ -19,6 +19,17 @@ const Welcome = () => {
          }
       };
       fetchData();
+   useEffect(() => {
+      const fetchData = async () => {
+         try {
+            const response = await fetch(`${apiURL}/getUserInfo`);
+            const data = await response.json();
+            setName(data.name);
+         } catch(error) {
+            console.error(error);
+         }
+      };
+      fetchData();
    }, []);
 
    const handleSettings = async () => {
