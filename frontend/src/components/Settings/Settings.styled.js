@@ -20,7 +20,7 @@ export const BoardsListWrapper = styled(Container)`
 `;
 
 export const CardWrapper = styled(Container)`
-    border: 1px solid black; // temp
+    border: 1px solid blue; // temp
     position: fixed;
     top: 50%;
     left: 50%;
@@ -28,6 +28,7 @@ export const CardWrapper = styled(Container)`
     z-index: 9999;
     background-color: white;
     display: flex;
+    padding: 1ex;
 `;
 
 export const FormWrapper = styled(Container)`
