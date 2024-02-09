@@ -21,7 +21,8 @@ function App() {
             <Route path="/welcome_student" element={<Keyboard />} />
             <Route path="/welcome" element={<ProtectedRoute><Welcome /></ProtectedRoute>} />
             <Route path="/create_account" element={<CreateAccount />} />
-            <Route path="/settings" element={<Settings />}></Route> // TODO: Make it a ProtectedRoute
+            <Route path="/settings" element={<Settings />} />
+            {/*                                            </Route> // TODO: Make it a ProtectedRoute */}
           </Routes>
         </div>
       </AuthProvider>

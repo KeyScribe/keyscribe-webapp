@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { SettingsWrapper, UserInfoWrapper, BoardsListWrapper, FriendsListWrapper, CardWrapper, InputWrapper, FormWrapper } from './Settings.styled';
-import { Button, Input } from '../Login/Login.styled';
+import { SettingsWrapper, ListWrapper, CardWrapper, InputWrapper, FormWrapper, NavBar, Button } from './Settings.styled';
+import { Input } from '../Login/Login.styled';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { FormField } from '../CreateAccount/CreateAccount.styled';
-import { BackWelcomeButton } from './Settings.styled';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
@@ -55,23 +54,26 @@ const Settings = () => {
    };
 
    return (
-      <SettingsWrapper>
-         <UserInfoWrapper>
-            <h1>User Information</h1>
+      <SettingsWrapper className='settings-wrapper'>
+         <NavBar className='nav-bar'>
+            <Button bg='#B8DBD9' txt='#0E0F19' onClick={handleBackWelcome}>Back to Welcome</Button>
+         </NavBar>
+         <ListWrapper className='user-list'>
+            <h1>My Info</h1>
             <p>First Name: {name}</p>
             <p>Last Name: </p>
             <p>Username: {username}</p>
             <p>Email: {emailaddress}</p>
-         </UserInfoWrapper>
-         <BoardsListWrapper>
+            <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED'>Edit</Button>
+         </ListWrapper>
+         <ListWrapper className='boards-list'>
             <h1>My Boards</h1>
-            <Button type='button' onClick={openBoardCard}>Add Board</Button>
-         </BoardsListWrapper>
-         <FriendsListWrapper>
+            <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' onClick={openBoardCard}>Add Board</Button>
+         </ListWrapper>
+         <ListWrapper className='friends-list'>
             <h1>My Friends</h1>
-            <Button type='button' onClick={openFriendCard}>Add Friend</Button>
-         </FriendsListWrapper>
-         <BackWelcomeButton onClick={handleBackWelcome}>Back to Welcome</BackWelcomeButton>
+            <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' onClick={openFriendCard}>Add Friend</Button>
+         </ListWrapper>
 
          {showBoardCard && (
             <CardWrapper>
