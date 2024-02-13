@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import Container from '@mui/material/Container'
 
 export const SettingsWrapper = styled.div`
     width: 100vw;
     height: 100vh;
+    background: #e4f0ef;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,8 +14,7 @@ export const NavBar = styled.div`
     height: 10%;
     background: #5F758E;
     position: absolute;
-    top: 1px;
-    z-index: -1;
+    top: 0px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -35,6 +34,11 @@ export const Button = styled.button`
     font-size: 17px;
     margin-right: 1%;
     margin-top: ${({top}) => top};
+    
+    &:hover {
+        background-color: ${({hbg}) => hbg};
+        scale: 101%;
+    }
 `;
 
 export const ListWrapper = styled.div`
@@ -49,24 +53,41 @@ export const ListWrapper = styled.div`
     flex-direction: column;
 `;
 
-export const CardWrapper = styled.div`
-    border: 1px solid blue; // temp
+export const Card = styled.div`
+    margin: 0px;
     position: fixed;
     top: 50%;
     left: 50%;
+    height: 45%;
+    width: 45%;
     transform: translate(-50%, -50%);
-    z-index: 9999;
-    background-color: white;
+    z-index: 1;
+    background-color: #e4f0ef;
+    display: block;
+    padding: 0.5%;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    justify-content: center;
+`;
+
+export const Input = styled.input`
+    border: none;
+    margin: auto;
+    margin-bottom: 2%;
+    display: block;
+    font-family: inherit;
+    width: 80%;
+    border-radius: 4px;
+    padding: 0.9rem 0.7rem;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    font-size: 17px;
+    color: #4A4A4A;
+`;
+
+export const CardButtonWrapper = styled.div`
     display: flex;
-    padding: 1ex;
-`;
-
-export const FormWrapper = styled(Container)`
-    border: 1px solid red; // temp    
-    padding: 5ex;
-`;
-
-export const InputWrapper = styled(Container)`
-    border: 1px solid black; // temp
-    padding: 3ex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10%;
+    padding: 1%;
 `;
