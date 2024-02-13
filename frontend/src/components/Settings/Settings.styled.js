@@ -35,7 +35,7 @@ export const Button = styled.button`
     margin-right: 1%;
     margin-top: ${({top}) => top};
     
-    &:hover {
+    &:not(:disabled):hover {
         background-color: ${({hbg}) => hbg};
         scale: 101%;
     }

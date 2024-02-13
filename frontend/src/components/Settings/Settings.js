@@ -50,6 +50,50 @@ const Settings = () => {
       setFriendShowCard(false);
    };
 
+   const [boardData, setBoardData] = useState({
+      boardName: '',
+      boardId: '',
+   });
+
+   const handleBoardChange = (e) => {
+      const { name, value } = e.target;
+      setBoardData((prevData) => ({
+         ...prevData,
+         [name]: value,
+      }));
+      };
+
+   const confirmBoard = async () => {
+      console.log('Board Data Submitted:', boardData);
+      try {
+         // TODO
+      } catch(error) {
+         console.error("Error adding board:", error);
+      }
+   };
+
+   const [friendData, setFriendData] = useState({
+      friendName: '',
+      friendEmail: '',
+   });
+
+   const handleFriendChange = (e) => {
+      const { name, value } = e.target;
+      setFriendData((prevData) => ({
+         ...prevData,
+         [name]: value,
+      }));
+      };
+
+   const confirmFriend = async () => {
+      console.log('Friend Data Submitted:', friendData);
+      try {
+         // TODO
+      } catch(error) {
+         console.error("Error adding friend:", error);
+      }
+   };
+
    return (
       <SettingsWrapper className='settings-wrapper'>
          <NavBar className='nav-bar'>
@@ -78,16 +122,20 @@ const Settings = () => {
                <Input
                   type="text" 
                   name="boardName"
-                  placeholder="Board Name" 
+                  placeholder="Board Name"
+                  value={boardData.boardName}
+                  onChange={handleBoardChange}
                />
                <Input
                   type="text" 
                   name="boardId"
                   placeholder="Board ID"
+                  value={boardData.boardId}
+                  onChange={handleBoardChange}
                />
                <CardButtonWrapper>
                   <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4' onClick={closeBoardCard}>Cancel</Button>
-                  <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4'>Confirm</Button>
+                  <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4' onClick={confirmBoard}>Confirm</Button>
                </CardButtonWrapper>
             </Card>
          )}
@@ -98,16 +146,20 @@ const Settings = () => {
                <Input
                   type="text" 
                   name="friendName"
-                  placeholder="Friend Name" 
+                  placeholder="Friend Name"
+                  value={friendData.friendName}
+                  onChange={handleFriendChange}
                />
                <Input
                   type="text" 
                   name="friendEmail"
-                  placeholder="Friend Email" 
+                  placeholder="Friend Email"
+                  value={friendData.friendEmail}
+                  onChange={handleFriendChange}
                />
                <CardButtonWrapper>
                   <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4' onClick={closeFriendCard}>Cancel</Button>
-                  <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4'>Confirm</Button>
+                  <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4' onClick={confirmFriend}>Confirm</Button>
                </CardButtonWrapper>
             </Card>
          )}
