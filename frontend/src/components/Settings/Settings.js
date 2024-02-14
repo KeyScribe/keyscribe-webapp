@@ -9,7 +9,8 @@ const apiURL = process.env.REACT_APP_BACKEND_URL;
 
 const Settings = () => {
    const navigate = useNavigate();
-   const [name, setName] = useState('');
+   const [first, setFirstName] = useState('');
+   const [last, setLastName] = useState('');
    const [username, setUsername] = useState('');
    const [emailaddress, setEmailAddress] = useState('');
 
@@ -18,7 +19,8 @@ const Settings = () => {
          try {
             const response = await fetch(`${apiURL}/getUserInfo`);
             const data = await response.json();
-            setName(data.first);
+            setFirstName(data.first);
+            setLastName(data.last);
             setUsername(data.user);
             setEmailAddress(data.email);
          } catch(error) {
@@ -36,8 +38,8 @@ const Settings = () => {
       <SettingsWrapper>
          <UserInfoWrapper className='user-info-list'>
             <h1>User Information</h1>
-            <p>First Name: {name}</p>
-            <p>Last Name: </p>
+            <p>First Name: {first}</p>
+            <p>Last Name: {last}</p>
             <p>Username: {username}</p>
             <p>Email: {emailaddress}</p>
          </UserInfoWrapper>
