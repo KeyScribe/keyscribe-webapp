@@ -8,10 +8,7 @@ const getInfo = async (id: string): Promise<any> => {
   if (result.rowCount === 0) {
     return '';
   }
-  console.log("firstname: ", result.rows[0].firstname)
-  console.log("firstname: ", result.rows[0].lastname)
-  console.log("username: ", result.rows[0].username)
-  console.log("email: ", result.rows[0].emailaddress)
+  
   return {
     first: result.rows[0].firstname, 
     last: result.rows[0].lastname,

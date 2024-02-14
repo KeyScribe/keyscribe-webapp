@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { WelcomeWrapper, SettingsButton } from './Welcome.styled';
+import { WelcomeWrapper, SettingsButton, NavBar } from './Welcome.styled';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
@@ -27,8 +27,14 @@ const Welcome = () => {
 
    return (
       <WelcomeWrapper data-testid="Welcome">
-         <h1>Welcome, {name}!</h1>
-         <SettingsButton onClick={handleSettings}>Settings</SettingsButton>
+          <NavBar className='nav-bar'>
+            <SettingsButton type='button' top='0px' bg='#B8DBD9' txt='#0E0F19' hbg='#97c2bf' onClick={handleSettings}>Settings</SettingsButton>
+         </NavBar>
+         <div>
+            <h1>Welcome, {name}!</h1>
+            <h1>Class: {}</h1>
+            <h1>Selected Board: {}</h1>
+         </div>
       </WelcomeWrapper>
    );
 };
