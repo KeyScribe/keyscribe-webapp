@@ -68,7 +68,14 @@ const Settings = () => {
    const confirmBoard = async () => {
       console.log('Board Data Submitted:', boardData);
       try {
-         // TODO
+         const response = await fetch(`${apiURL}/claim`, {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(boardData),
+         });
+         console.log(response);
       } catch(error) {
          console.error("Error adding board:", error);
       }
@@ -90,7 +97,14 @@ const Settings = () => {
    const confirmFriend = async () => {
       console.log('Friend Data Submitted:', friendData);
       try {
-         // TODO
+         const response = await fetch(`${apiURL}/friend`, {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(friendData),
+         });
+         console.log(response);
       } catch(error) {
          console.error("Error adding friend:", error);
       }
