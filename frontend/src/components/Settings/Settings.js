@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { SettingsWrapper, ListWrapper, Input, NavBar, Button, Card, CardButtonWrapper } from './Settings.styled';
+import { SettingsWrapper, ListWrapper, Input, Card, CardButtonWrapper } from './Settings.styled';
+import { NavBar, Button } from '../../App.styled';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
