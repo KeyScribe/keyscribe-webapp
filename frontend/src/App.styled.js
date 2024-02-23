@@ -44,11 +44,15 @@ export const Button = styled.button`
         background-color: ${({hbg}) => hbg};
         scale: 101%;
     }
+
+    &:disabled:hover {
+        cursor: not-allowed;
+    }
 `;
 
 export const NavHeaderText = styled.h1`
     font-family: 'Marck Script', sans-serif;
-    color: #ffffff;
+    color: ${colors.light_txt};
     text-align: center;
     margin-bottom: 20px;
     position: absolute;
