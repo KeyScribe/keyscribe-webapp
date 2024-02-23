@@ -20,7 +20,7 @@ export const NavBar = styled.div`
     position: absolute;
     top: 0px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
 `;
 
@@ -37,6 +37,7 @@ export const Button = styled.button`
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
     font-size: 17px;
     margin-right: 1%;
+    margin-left: 1%;
     margin-top: ${({top}) => top};
     
     &:not(:disabled):hover {

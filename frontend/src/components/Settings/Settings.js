@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext/AuthContext';
 import PropTypes from 'prop-types';
 import { SettingsWrapper, ListWrapper, Card, CardButtonWrapper } from './Settings.styled';
 import { colors, NavBar, Button, Input, FormField } from '../../App.styled';
@@ -7,6 +8,7 @@ import { colors, NavBar, Button, Input, FormField } from '../../App.styled';
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
 const Settings = () => {
+   const { logout } = useAuth();
    const navigate = useNavigate();
    const [first, setFirstName] = useState('');
    const [last, setLastName] = useState('');
@@ -31,6 +33,11 @@ const Settings = () => {
 
    const handleBackWelcome = async () => {
       navigate('/welcome');
+   }
+
+   const handleLogOut = async () => {
+      logout(); // WARNING! Does not work yet
+      navigate('/login');
    }
 
    const [showBoardCard, setBoardShowCard] = useState(false);
@@ -114,6 +121,7 @@ const Settings = () => {
    return (
       <SettingsWrapper className='settings-wrapper'>
          <NavBar className='nav-bar'>
+            <Button type='button' top='0px' bg={colors.med_bg} txt={colors.dark_txt} hbg={colors.light_hover} onClick={handleLogOut}>Log Out</Button>
             <Button type='button' top='0px' bg={colors.med_bg} txt={colors.dark_txt} hbg={colors.light_hover} onClick={handleBackWelcome}>Back to Welcome</Button>
          </NavBar>
          <ListWrapper className='user-list'>

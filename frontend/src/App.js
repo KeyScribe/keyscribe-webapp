@@ -20,6 +20,7 @@ function App() {
             <Route path="/welcome_teacher" element={<Keyboard />} />
             <Route path="/welcome_student" element={<Keyboard />} />
             <Route path="/welcome" element={<ProtectedRoute><Welcome /></ProtectedRoute>} />
+            {/* <Route path="/welcome" element={<Welcome />} /> */}
             <Route path="/create_account" element={<CreateAccount />} />
             <Route path="/settings" element={<Settings />}></Route>
             {/*                                            </Route> // TODO: Make it a ProtectedRoute */}
