@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext/AuthContext';
 import PropTypes from 'prop-types';
-import { SettingsWrapper, ListWrapper, Card, CardButtonWrapper } from './Settings.styled';
-import { colors, NavBar, Button, Input, FormField, NavHeaderText } from '../../App.styled';
+import { SettingsWrapper, ListWrapper } from './Settings.styled';
+import { colors, NavBar, Button, Input, FormField, NavHeaderText, Card, CardButtonWrapper } from '../../App.styled';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
@@ -143,7 +143,7 @@ const Settings = () => {
          </ListWrapper>
 
          {showBoardCard && (
-            <Card raised='true'>
+            <Card raised='true' bg={colors.light_bg} w='45%' h='45%'>
                <h2>Add Board</h2>
                <FormField>
                   <Input
@@ -171,7 +171,7 @@ const Settings = () => {
          )}
 
          {showFriendCard && (
-            <Card>
+            <Card bg={colors.light_bg} w='45%' h='45%'>
                <h2>Add Friend</h2>
                <FormField>
                   <Input

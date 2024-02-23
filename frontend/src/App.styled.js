@@ -82,3 +82,30 @@ export const FormField = styled.div`
     margin-bottom: 1rem;
     position: relative;
 `;
+
+export const Card = styled.div`
+    margin: 0px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: ${({h}) => h};
+    width: ${({w}) => w};
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background-color: ${({bg}) => bg};
+    display: block;
+    padding: 0.5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    justify-content: center;
+`;
+
+export const CardButtonWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10%;
+    padding: 1%;
+`;
