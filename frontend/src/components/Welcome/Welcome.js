@@ -33,6 +33,10 @@ const Welcome = () => {
       navigate('/login');
    }
 
+   const handleStart = async() => {
+      navigate('/session');
+   }
+
    return (
       <WelcomeWrapper data-testid="Welcome">
           <NavBar className='nav-bar'>
@@ -45,7 +49,7 @@ const Welcome = () => {
             <h2>Class: {}</h2>
             <h2>Selected Board: {}</h2>
          </UserWrapper>
-         <Button type='button' top='0px' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover}>Start Session</Button>
+         <Button type='button' top='0px' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={handleStart}>Start Session</Button>
          <Button type='button' top='0px' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover}>Join Session</Button>
       </WelcomeWrapper>
    );
