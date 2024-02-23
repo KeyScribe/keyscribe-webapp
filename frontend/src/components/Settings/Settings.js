@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { SettingsWrapper, ListWrapper, Input, Card, CardButtonWrapper } from './Settings.styled';
-import { NavBar, Button } from '../../App.styled';
+import { SettingsWrapper, ListWrapper, Card, CardButtonWrapper } from './Settings.styled';
+import { colors, NavBar, Button, Input, FormField } from '../../App.styled';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
@@ -114,7 +114,7 @@ const Settings = () => {
    return (
       <SettingsWrapper className='settings-wrapper'>
          <NavBar className='nav-bar'>
-            <Button type='button' top='0px' bg='#B8DBD9' txt='#0E0F19' hbg='#97c2bf' onClick={handleBackWelcome}>Back to Welcome</Button>
+            <Button type='button' top='0px' bg={colors.med_bg} txt={colors.dark_txt} hbg={colors.light_hover} onClick={handleBackWelcome}>Back to Welcome</Button>
          </NavBar>
          <ListWrapper className='user-list'>
             <h1>My Info</h1>
@@ -122,37 +122,41 @@ const Settings = () => {
             <p>Last Name: {last}</p>
             <p>Username: {username}</p>
             <p>Email: {emailaddress}</p>
-            <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4'>Edit</Button>
+            <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover}>Edit</Button>
          </ListWrapper>
          <ListWrapper className='boards-list'>
             <h1>My Boards</h1>
-            <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4' onClick={openBoardCard} disabled={isCardOpen}>Add Board</Button>
+            <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={openBoardCard} disabled={isCardOpen}>Add Board</Button>
          </ListWrapper>
          <ListWrapper className='friends-list'>
             <h1>My Friends</h1>
-            <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4' onClick={openFriendCard} disabled={isCardOpen}>Add Friend</Button>
+            <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={openFriendCard} disabled={isCardOpen}>Add Friend</Button>
          </ListWrapper>
 
          {showBoardCard && (
             <Card raised='true'>
                <h2>Add Board</h2>
-               <Input
-                  type="text" 
-                  name="boardName"
-                  placeholder="Board Name"
-                  value={boardData.boardName}
-                  onChange={handleBoardChange}
-               />
-               <Input
-                  type="text" 
-                  name="boardId"
-                  placeholder="Board ID"
-                  value={boardData.boardId}
-                  onChange={handleBoardChange}
-               />
+               <FormField>
+                  <Input
+                     type="text" 
+                     name="boardName"
+                     placeholder="Board Name"
+                     value={boardData.boardName}
+                     onChange={handleBoardChange}
+                  />
+               </FormField>
+               <FormField>
+                  <Input
+                     type="text" 
+                     name="boardId"
+                     placeholder="Board ID"
+                     value={boardData.boardId}
+                     onChange={handleBoardChange}
+                  />
+               </FormField>
                <CardButtonWrapper>
-                  <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4' onClick={closeBoardCard}>Cancel</Button>
-                  <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4' onClick={confirmBoard}>Confirm</Button>
+                  <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={closeBoardCard}>Cancel</Button>
+                  <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={confirmBoard}>Confirm</Button>
                </CardButtonWrapper>
             </Card>
          )}
@@ -160,23 +164,27 @@ const Settings = () => {
          {showFriendCard && (
             <Card>
                <h2>Add Friend</h2>
-               <Input
-                  type="text" 
-                  name="friendName"
-                  placeholder="Friend Name"
-                  value={friendData.friendName}
-                  onChange={handleFriendChange}
-               />
-               <Input
-                  type="text" 
-                  name="friendEmail"
-                  placeholder="Friend Email"
-                  value={friendData.friendEmail}
-                  onChange={handleFriendChange}
-               />
+               <FormField>
+                  <Input
+                     type="text" 
+                     name="friendName"
+                     placeholder="Friend Name"
+                     value={friendData.friendName}
+                     onChange={handleFriendChange}
+                  />
+               </FormField>
+               <FormField>
+                  <Input
+                     type="text" 
+                     name="friendEmail"
+                     placeholder="Friend Email"
+                     value={friendData.friendEmail}
+                     onChange={handleFriendChange}
+                  />
+               </FormField>
                <CardButtonWrapper>
-                  <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4' onClick={closeFriendCard}>Cancel</Button>
-                  <Button type='button' top='auto' bg='#5F758E' txt='#F1EDED' hbg='#8da7c4' onClick={confirmFriend}>Confirm</Button>
+                  <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={closeFriendCard}>Cancel</Button>
+                  <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={confirmFriend}>Confirm</Button>
                </CardButtonWrapper>
             </Card>
          )}
