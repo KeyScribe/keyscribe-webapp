@@ -27,7 +27,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../../frontend/build')));
 app.use(express.static(path.join(__dirname, '../../frontend/public')));
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://localhost:8000'],
+  methods: 'GET,PUT,POST,DELETE',
+  allowedHeaders: 'content-type',
+  credentials: true
+}));
 const PGSession = pgSessionSimple(session);
 app.use(session({
   store: new PGSession({
@@ -58,6 +63,7 @@ passport.use(new LocalStrategy(
 passport.serializeUser((user: Express.User, done) => {
   process.nextTick(() => done(null, user.id));
 });
+
 
 passport.deserializeUser((id: string, done) => {
   process.nextTick(async () => done(null, await getUserById(id)));

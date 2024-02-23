@@ -7,7 +7,7 @@ import { authenticate, isAuthenticated } from './middleware';
 
 const router = Router();
 
-router.post('/login', authenticate, loginHandler);
+router.post('/login', authenticate, userInfoHandler);
 router.delete('/logout', isAuthenticated, logoutHandler);
 router.post('/register', registerHandler);
 router.post('/led', ledOn);
