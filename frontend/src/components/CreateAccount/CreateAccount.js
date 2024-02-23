@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CreateAccountWrapper, CreateAccountForm } from '../CreateAccount/CreateAccount.styled';
-import { Background } from '../Login/Login.styled';
-import { colors, Button, HeaderText, Input, FormField } from '../../App.styled';
+import { Background, HeaderText } from '../Login/Login.styled';
+import { colors, Button, Input, FormField } from '../../App.styled';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 

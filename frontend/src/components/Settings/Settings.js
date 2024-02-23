@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext/AuthContext';
 import PropTypes from 'prop-types';
 import { SettingsWrapper, ListWrapper, Card, CardButtonWrapper } from './Settings.styled';
-import { colors, NavBar, Button, Input, FormField } from '../../App.styled';
+import { colors, NavBar, Button, Input, FormField, NavHeaderText } from '../../App.styled';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
@@ -122,6 +122,7 @@ const Settings = () => {
       <SettingsWrapper className='settings-wrapper'>
          <NavBar className='nav-bar'>
             <Button type='button' top='0px' bg={colors.med_bg} txt={colors.dark_txt} hbg={colors.light_hover} onClick={handleLogOut}>Log Out</Button>
+            <NavHeaderText className='header'>KeyScribe</NavHeaderText>
             <Button type='button' top='0px' bg={colors.med_bg} txt={colors.dark_txt} hbg={colors.light_hover} onClick={handleBackWelcome}>Back to Welcome</Button>
          </NavBar>
          <ListWrapper className='user-list'>

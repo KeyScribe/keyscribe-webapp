@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext/AuthContext'
-import { Container, Background, LoginForm, FormField, CreateAccountButton} from './Login.styled';
-import { colors, Button, HeaderText, Input} from '../../App.styled';
+import { Container, Background, HeaderText, LoginForm, FormField, CreateAccountButton} from './Login.styled';
+import { colors, Button, Input} from '../../App.styled';
 
 const Login = () => {
    const navigate = useNavigate();

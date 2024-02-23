@@ -46,11 +46,14 @@ export const Button = styled.button`
     }
 `;
 
-export const HeaderText = styled.h1`
+export const NavHeaderText = styled.h1`
     font-family: 'Marck Script', sans-serif;
     color: #ffffff;
     text-align: center;
     margin-bottom: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 `;
 
 export const Input = styled.input`

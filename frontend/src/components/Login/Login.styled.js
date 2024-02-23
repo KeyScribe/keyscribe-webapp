@@ -29,6 +29,14 @@ export const LoginForm = styled.div`
     flex-direction: column;
     width: 350px;
     position: relative;
+    justify-content: center;
+`;
+
+export const HeaderText = styled.h1`
+    font-family: 'Marck Script', sans-serif;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
 `;
 
 export const FormField = styled.div`

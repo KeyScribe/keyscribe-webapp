@@ -1,8 +1,8 @@
 import React, { useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext/AuthContext';
-import { WelcomeWrapper } from './Welcome.styled';
-import { colors, NavBar, Button } from '../../App.styled';
+import { WelcomeWrapper, UserWrapper } from './Welcome.styled';
+import { colors, NavBar, Button, NavHeaderText } from '../../App.styled';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
 
@@ -37,13 +37,16 @@ const Welcome = () => {
       <WelcomeWrapper data-testid="Welcome">
           <NavBar className='nav-bar'>
             <Button type='button' top='0px' bg={colors.med_bg} txt={colors.dark_txt} hbg={colors.light_hover} onClick={handleLogOut}>Log Out</Button>
+            <NavHeaderText className='header'>KeyScribe</NavHeaderText>
             <Button type='button' top='0px' bg={colors.med_bg} txt={colors.dark_txt} hbg={colors.light_hover} onClick={handleSettings}>Settings</Button>
          </NavBar>
-         <div>
+         <UserWrapper className='user-wrapper'>
             <h1>Welcome, {name}!</h1>
-            <h1>Class: {}</h1>
-            <h1>Selected Board: {}</h1>
-         </div>
+            <h2>Class: {}</h2>
+            <h2>Selected Board: {}</h2>
+         </UserWrapper>
+         <Button type='button' top='0px' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover}>Start Session</Button>
+         <Button type='button' top='0px' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover}>Join Session</Button>
       </WelcomeWrapper>
    );
 };
