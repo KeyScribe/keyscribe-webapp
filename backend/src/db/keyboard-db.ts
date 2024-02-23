@@ -56,19 +56,23 @@ const getOwner = async (pid: number): Promise<string> => {
 /**
    * Sets the user as the owner of the keyboard
    * @param userId The id of the user claiming the keyboard
-   * @param pid The id of the keyboard
+   * @param hardwareId The hardware_id of the keyboard
    * @returns True if successful
    */
-const setOwner = async (userId: number, pid: number): Promise<boolean> => {
+const setOwner = async (userId: string, hardwareId: number): Promise<number> => {
   const update = `
       UPDATE keyboards
       SET owner = $1
-      WHERE owner IS NULL AND id = $2
-      RETURNING pid`;
+      WHERE owner IS NULL AND hardware_id = $2
+      RETURNING id`;
 
-  const id = await queryPool(update, [userId, pid]);
+  const result = await queryPool(update, [userId, hardwareId]);
 
-  return id.rowCount !== 0;
+  if (result.rowCount === 0) {
+    return -1;
+  }
+
+  return result.rows[0].id;
 };
 
 /**

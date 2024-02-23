@@ -5,6 +5,7 @@ import path from 'path';
 import {
   validateHardwareId, getPID, getOwner, setOwner, createKeyboard,
 } from '../db/keyboard-db';
+import { sendMessageToRaspberryPi } from '../websockets/websocket-setup';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 const JWT_SECRET: string = process.env.JWT_SECRET!;
@@ -44,32 +45,33 @@ const authorizeKeyboard = async (req: Request, res: Response) => {
 };
 
 /**
- * WARNING! THIS IS NOT FUNCTIONAL YET
+ * Accepts the hardware ID of a Pi and claims it for the user,
+ * sending the Pi a new JWT indicating its new owner.
  */
 const claimKeyboard = async (req: Request, res: Response) => {
   // User initiates request to claim an unclaimed keyboard
-  const requestedPID = parseInt(req.params.pid, 10);
-  const userId = parseInt(req.params.userId, 10); // FIXME: User id should be a part of the session
-
-  // NOT IMPLEMENTED FOR DESIGN PROTOTYPE: Keyboard consents to being claimed
+  const hardwareId = parseInt(req.body.boardId as string, 10);
+  const userId = req.user!.id;
 
   // Owner is set in DB
-  if (await setOwner(userId, requestedPID)) {
-    // FIXME: JWT is returned to Pi
+  const pid = await setOwner(userId, hardwareId);
+  if (pid !== -1) {
     const jwt = sign(
       {
         sub: userId,
-        PID: requestedPID,
+        PID: pid,
       },
       JWT_SECRET,
       { expiresIn: 900 }, // JWT expires in 15 minutes
     );
 
+    sendMessageToRaspberryPi(pid, "jwt", { jwt: jwt });
+
     res.status(200);
-    res.send(jwt);
+    res.send();
   } else {
     res.status(400);
-    res.send('Keyboard already owned by another');
+    res.send('Keyboard already owned by another or has not come online yet');
   }
 };
 

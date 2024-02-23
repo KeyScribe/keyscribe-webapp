@@ -11,12 +11,12 @@ const JWT_SECRET: string = process.env.JWT_SECRET!;
 const connections: Map<number, WebSocket> = new Map();
 
 // Function to send WebSocket messages to Raspberry Pi
-const sendMessageToRaspberryPi = (id: number, note: string) => {
+const sendMessageToRaspberryPi = (id: number, type: string, body: object) => {
   const ws = connections.get(id);
 
   if (ws && ws.readyState === WebSocket.OPEN) {
     const message = JSON.stringify({
-      id, note,
+      id, type, ...body
     });
     ws.send(message);
   }
@@ -56,7 +56,8 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
             if (message.note !== '[]') {
               sendMessageToRaspberryPi(
                 id,
-                message.note.toString(),
+                "note",
+                { note: message.note },
               );
             }
           });
