@@ -9,12 +9,12 @@ const registerHandler = async (req: Request, res: Response) => {
   } = req.body;
   try {
     if (!await createAccount(username, password, emailAddress, firstName, lastName)) {
-      res.status(401).json({ error: 'User already exists!' });
+      return res.status(401).send({ error: 'User already exists!' });
     } else {
-      res.status(200).json({ message: 'Account creation successful' });
+      return res.status(200).send({ message: 'Account creation successful' });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Login failed' });
+    return res.status(500).send({ error: 'Login failed' });
   }
 };
 

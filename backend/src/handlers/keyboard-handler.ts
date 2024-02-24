@@ -16,7 +16,7 @@ const authorizeKeyboard = async (req: Request, res: Response) => {
   // Hardware ID is confirmed to be valid
   if (!await validateHardwareId(hardwareId)) {
     res.status(401);
-    res.send();
+    return res.send();
   }
 
   // If the keyboard is already registered, get its ID,
@@ -41,7 +41,7 @@ const authorizeKeyboard = async (req: Request, res: Response) => {
   );
 
   res.status(200);
-  res.send({ token: jwt });
+  return res.send({ token: jwt });
 };
 
 /**
@@ -68,10 +68,10 @@ const claimKeyboard = async (req: Request, res: Response) => {
     sendMessageToRaspberryPi(pid, "jwt", { jwt: jwt });
 
     res.status(200);
-    res.send();
+    return res.send();
   } else {
     res.status(400);
-    res.send('Keyboard already owned by another or has not come online yet');
+    return res.send('Keyboard already owned by another or has not come online yet');
   }
 };
 
