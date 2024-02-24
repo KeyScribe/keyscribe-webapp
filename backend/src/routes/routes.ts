@@ -9,7 +9,7 @@ const router = Router();
 router.post('/login', authenticate, loginHandler);
 router.delete('/logout', isAuthenticated, logoutHandler);
 router.post('/register', registerHandler);
-router.post('/claim', isAuthenticated, claimKeyboard); // WARNING! DOES NOT WORK YET
+router.post('/claim', isAuthenticated, claimKeyboard);
 router.get('/authorize', authorizeKeyboard);
 router.get('/getUserInfo', isAuthenticated, userInfoHandler);
 router.get('/userLoggedIn', isAuthenticated);

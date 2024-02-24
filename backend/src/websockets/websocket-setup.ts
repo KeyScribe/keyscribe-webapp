@@ -16,7 +16,7 @@ const sendMessageToRaspberryPi = (id: number, type: string, body: object) => {
 
   if (ws && ws.readyState === WebSocket.OPEN) {
     const message = JSON.stringify({
-      id, type, ...body
+      id, type, ...body,
     });
     ws.send(message);
   }
@@ -56,7 +56,7 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
             if (message.note !== '[]') {
               sendMessageToRaspberryPi(
                 id,
-                "note",
+                'note',
                 { note: message.note },
               );
             }

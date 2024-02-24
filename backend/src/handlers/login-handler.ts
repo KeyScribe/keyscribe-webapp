@@ -10,9 +10,8 @@ const registerHandler = async (req: Request, res: Response) => {
   try {
     if (!await createAccount(username, password, emailAddress, firstName, lastName)) {
       return res.status(401).send({ error: 'User already exists!' });
-    } else {
-      return res.status(200).send({ message: 'Account creation successful' });
     }
+    return res.status(200).send({ message: 'Account creation successful' });
   } catch (error) {
     return res.status(500).send({ error: 'Login failed' });
   }
@@ -23,8 +22,8 @@ const logoutHandler = async (req: Request, res: Response) => {
     if (err) {
       res.status(500).send();
     }
-    req.session.destroy((err) => {
-      if (err) {
+    req.session.destroy((error) => {
+      if (error) {
         res.status(500).send();
       }
       res.status(200).send();

@@ -11,7 +11,11 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 const JWT_SECRET: string = process.env.JWT_SECRET!;
 
 const authorizeKeyboard = async (req: Request, res: Response) => {
-  const hardwareId = parseInt(req.query.hardwareId as string, 10);
+  const hardwareIdString = req.query.hardwareId?.toString();
+  if (hardwareIdString === undefined) {
+    return res.status(400).send('Missing parameters');
+  }
+  const hardwareId = parseInt(hardwareIdString, 10);
 
   // Hardware ID is confirmed to be valid
   if (!await validateHardwareId(hardwareId)) {
@@ -50,11 +54,18 @@ const authorizeKeyboard = async (req: Request, res: Response) => {
  */
 const claimKeyboard = async (req: Request, res: Response) => {
   // User initiates request to claim an unclaimed keyboard
-  const hardwareId = parseInt(req.body.boardId as string, 10);
+  const hardwareIdString = req.body.boardId?.toString();
+  const name = req.body.name?.toString();
+
+  if (hardwareIdString === undefined || name === undefined) {
+    return res.status(400).send('Missing parameters');
+  }
+
+  const hardwareId = parseInt(hardwareIdString, 10);
   const userId = req.user!.id;
 
   // Owner is set in DB
-  const pid = await setOwner(userId, hardwareId);
+  const pid = await setOwner(userId, hardwareId, name);
   if (pid !== -1) {
     const jwt = sign(
       {
@@ -65,14 +76,13 @@ const claimKeyboard = async (req: Request, res: Response) => {
       { expiresIn: 900 }, // JWT expires in 15 minutes
     );
 
-    sendMessageToRaspberryPi(pid, "jwt", { jwt: jwt });
+    sendMessageToRaspberryPi(pid, 'jwt', { jwt });
 
     res.status(200);
     return res.send();
-  } else {
-    res.status(400);
-    return res.send('Keyboard already owned by another or has not come online yet');
   }
+  res.status(400);
+  return res.send('Keyboard already owned or has not come online yet');
 };
 
 export {

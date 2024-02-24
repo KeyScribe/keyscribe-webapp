@@ -59,14 +59,14 @@ const getOwner = async (pid: number): Promise<string> => {
    * @param hardwareId The hardware_id of the keyboard
    * @returns True if successful
    */
-const setOwner = async (userId: string, hardwareId: number): Promise<number> => {
+const setOwner = async (userId: string, hardwareId: number, name: string): Promise<number> => {
   const update = `
       UPDATE keyboards
-      SET owner = $1
+      SET owner = $1, name = $3
       WHERE owner IS NULL AND hardware_id = $2
       RETURNING id`;
 
-  const result = await queryPool(update, [userId, hardwareId]);
+  const result = await queryPool(update, [userId, hardwareId, name]);
 
   if (result.rowCount === 0) {
     return -1;
