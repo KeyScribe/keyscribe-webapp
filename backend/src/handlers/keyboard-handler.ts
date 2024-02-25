@@ -3,7 +3,7 @@ import { sign } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import path from 'path';
 import {
-  validateHardwareId, getPID, getOwner, setOwner, createKeyboard,
+  validateHardwareId, getPID, getOwner, setOwner, createKeyboard, createSession, joinSession, leaveSession, closeSession,
 } from '../db/keyboard-db';
 import { sendMessageToRaspberryPi } from '../websockets/websocket-setup';
 
@@ -85,7 +85,71 @@ const claimKeyboard = async (req: Request, res: Response) => {
   return res.send('Keyboard already owned or has not come online yet');
 };
 
+const createSessionHandler = async (req: Request, res: Response) => {
+  const userId = req.user!.id;
+  const keyboardId = req.body.boardId?.toString();
+  const name = req.body.name?.toString();
+
+  if (keyboardId === undefined || name === undefined) {
+    return res.status(400).send('Missing parameters');
+  }
+
+  const sessionId = await createSession(userId, keyboardId, name);
+  
+  if (sessionId === -1) {
+    return res.status(400).send('Keyboard already in session');
+  }
+  return res.status(200).send(sessionId);
+};
+
+const joinSesssionHandler = async (req: Request, res: Response) => {
+  const userId = req.user!.id;
+  const keyboardId = req.body.boardId?.toString();
+  const sessionId = req.body.sessionId?.toString();
+
+  if (keyboardId === undefined || sessionId === undefined) {
+    return res.status(400).send('Missing parameters');
+  }
+
+  if (!await joinSession(userId, keyboardId, sessionId)) {
+    return res.status(400).send('Failed to join');
+  }
+  return res.status(200).send();
+};
+
+const leaveSessionHandler = async (req: Request, res: Response) => {
+  const userId = req.user!.id;
+  const keyboardId = req.body.boardId?.toString();
+
+  if (keyboardId === undefined) {
+    return res.status(400).send('Missing parameters');
+  }
+
+  if (!await leaveSession(userId, keyboardId)) {
+    return res.status(400).send('Failed to leave session');
+  }
+  return res.status(200).send();
+};
+
+const closeSessionHandler = async (req: Request, res: Response) => {
+  const userId = req.user!.id;
+  const sessionId = req.body.sessionId?.toString();
+
+  if (sessionId === undefined) {
+    return res.status(400).send('Missing parameters');
+  }
+
+  if (!await closeSession(userId, sessionId)) {
+    return res.status(400).send('Failed to close session');
+  }
+  return res.status(200).send();
+};
+
 export {
   authorizeKeyboard,
   claimKeyboard,
+  createSessionHandler,
+  joinSesssionHandler,
+  leaveSessionHandler,
+  closeSessionHandler,
 };

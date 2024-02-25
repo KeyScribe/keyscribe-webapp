@@ -5,13 +5,21 @@ const getName = async (id: string): Promise<string> => {
 
   const result = await queryPool(query, [id]);
 
-  if (result.rowCount === 0) {
+  if (result.rows.length === 0) {
     return '';
   }
   return result.rows[0].firstname;
 };
 
+const getKeyboards = async (id: string): Promise<any[]> => {
+  const query = 'SELECT id, name FROM keyboards WHERE owner = $1';
+
+  const result = await queryPool(query, [id]);
+
+  return result.rows;
+}
+
 export {
-  // eslint-disable-next-line import/prefer-default-export
   getName,
+  getKeyboards,
 };

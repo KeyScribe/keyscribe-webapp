@@ -12,7 +12,7 @@ const validateLogin = async (username: string, password: string): Promise<Expres
 
   const result = await queryPool(query, [username]);
 
-  if (result.rowCount === 0) {
+  if (result.rows.length === 0) {
     return null;
   }
 
@@ -64,7 +64,7 @@ const createAccount = async (user: string, password: string, email: string, firs
     `;
 
   const result = await queryPool(insert, [user, hashedPassword, firstName, lastName, email]);
-  return result.rowCount === 1;
+  return result.rows.length === 1;
 };
 
 const getUserById = async (id: string): Promise<Express.User | null> => {
@@ -72,7 +72,7 @@ const getUserById = async (id: string): Promise<Express.User | null> => {
 
   const result = await queryPool(query, [id]);
 
-  if (result.rowCount === 0) {
+  if (result.rows.length === 0) {
     return null;
   }
 

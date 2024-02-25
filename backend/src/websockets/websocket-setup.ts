@@ -3,7 +3,7 @@ import { Server } from 'https';
 import { JwtPayload, verify } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import path from 'path';
-import { getConnectedKeyboards } from '../db/ws-db';
+import { getConnectedKeyboards } from '../db/keyboard-db';
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 const JWT_SECRET: string = process.env.JWT_SECRET!;
