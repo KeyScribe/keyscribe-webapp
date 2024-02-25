@@ -95,7 +95,7 @@ const createKeyboard = async (hardwareId: number): Promise<number> => {
 };
 
 /**
- * Returns all other keyboards a keyboard is connected to only if it is the teacher of the session
+ * Returns all other keyboards a keyboard is connected to
  * @param id The keyboard whose connections you want to find
  * @returns A list of keyboard IDs that this keyboard is connected to
  */
@@ -103,8 +103,7 @@ const getConnectedKeyboards = async (id: number): Promise<number[]> => {
   const select = `
       SELECT id
       FROM keyboards
-      WHERE session_id = (SELECT session_id FROM keyboards WHERE id = $1 AND role = 'teacher')
-        AND id != $1 AND role = 'student'`;
+      WHERE session_id = (SELECT session_id FROM keyboards WHERE id = $1)`;
 
   const result = await queryPool(select, [id]);
 
