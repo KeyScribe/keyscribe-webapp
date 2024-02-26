@@ -1,6 +1,8 @@
 # Node image 
 FROM node:21-alpine3.18
 
+RUN apk --no-cache add curl
+
 # Set working directory in the container
 WORKDIR /app
 
