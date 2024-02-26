@@ -103,7 +103,7 @@ const getConnectedKeyboards = async (id: number): Promise<number[]> => {
   const select = `
       SELECT id
       FROM keyboards
-      WHERE session_id = (SELECT session_id FROM keyboards WHERE id = $1)`;
+      WHERE session_id = (SELECT session_id FROM keyboards WHERE id = $1) AND id != $1`;
 
   const result = await queryPool(select, [id]);
 
@@ -127,13 +127,13 @@ const createSession = async (userId: string, pid: number, name: string): Promise
 
   // Check to make sure keyboard isn't already in a session and belongs to the user
   const selectQuery = `
-    SELECT session_id
+    SELECT session_id AS "sessionId"
     FROM keyboards
     WHERE id = $1 AND owner = $2;
   `;
 
   const currentSession = await queryPool(selectQuery, [pid, userId]);
-  if (currentSession.rows[0] !== null) {
+  if (currentSession.rows[0].sessionId !== null) {
     return -1;
   }
 

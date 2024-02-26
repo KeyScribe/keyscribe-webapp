@@ -79,7 +79,7 @@ const claimKeyboard = async (req: Request, res: Response) => {
     sendMessageToRaspberryPi(pid, 'jwt', { jwt });
 
     res.status(200);
-    return res.send();
+    return res.send(pid.toString());
   }
   res.status(400);
   return res.send('Keyboard already owned or has not come online yet');
@@ -99,7 +99,7 @@ const createSessionHandler = async (req: Request, res: Response) => {
   if (sessionId === -1) {
     return res.status(400).send('Keyboard already in session');
   }
-  return res.status(200).send(sessionId);
+  return res.status(200).send(sessionId.toString());
 };
 
 const joinSesssionHandler = async (req: Request, res: Response) => {
