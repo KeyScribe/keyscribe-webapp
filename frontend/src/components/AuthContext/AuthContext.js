@@ -24,7 +24,7 @@ const AuthProvider = ({ children }) => {
       // Check user is authenticated when url changes
       // Don't check if create account is accessed
       const checkAuth = () => {
-         console.log(location);
+         // console.log(location);
          if (location.pathname !== '/create_account') {
          // Check authorization 
             console.log(isAuthenticated);
@@ -54,9 +54,9 @@ const AuthProvider = ({ children }) => {
          const response = await fetch(`${apiURL}/login`, {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json',
+               'Content-Type': 'application/json',
             },
-            //credentials: 'include',
+            credentials: 'include',
             body: JSON.stringify({ username, password }),
          });
 
@@ -64,7 +64,6 @@ const AuthProvider = ({ children }) => {
             setIsAuthenticated(true);
             // Set sessionStorage to store usage details
             const data = await response.json();
-            console.log(data);
             sessionStorage.setItem('user.name', data.name);
             return true;
          }

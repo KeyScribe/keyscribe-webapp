@@ -23,14 +23,18 @@ dotenv.config();
 const app: Application = express();
 const port = process.env.PORT || 8000;
 
+const FRONTEND_CORS = process.env.FRONTEND_CORS!
+const DEV_BACKEND = process.env.DEV_BACKEND!
+const whitelist = [FRONTEND_CORS, DEV_BACKEND]
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../../frontend/build')));
 app.use(express.static(path.join(__dirname, '../../frontend/public')));
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://localhost:8000'],
+  origin: whitelist,
   methods: 'GET,PUT,POST,DELETE',
-  allowedHeaders: 'content-type',
+  allowedHeaders: 'content-type, authorization',
   credentials: true
 }));
 const PGSession = pgSessionSimple(session);
