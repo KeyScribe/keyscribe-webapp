@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build and Push Frontend Docker Image
 
 on:
   push:
@@ -8,13 +8,6 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - image: webapp_frontend/frontend
-            dockerfile: frontend/Dockerfile
-          - image: webapp_backend/backend
-            dockerfile: backend/Dockerfile
 
     steps:
     - name: Checkout Repository
@@ -29,13 +22,13 @@ jobs:
     - name: Extract metadata (tags, labels) for Docker
       uses: docker/metadata-action@v4
       with:
-        images: ${{ matrix.image }}
+        images: ${{ secrets.DOCKER_USERNAME }}/keyscribe_image_repo
 
     - name: Build and push
       uses: docker/build-push-action@v4
       with:
-        context: .
-        file: ${{ matrix.dockerfile }}
+        context: frontend
+        file: ./frontend/Dockerfile
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
