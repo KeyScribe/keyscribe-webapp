@@ -13,41 +13,33 @@ const AuthProvider = ({ children }) => {
    // This function is to prevent losing login status on refresh
    useEffect(() => {
       const fetchData = async () => {
-         const loggedIn = await fetch(`${apiURL}/userLoggedIn`)
+         const loggedIn = await fetch(`${apiURL}/userLoggedIn`, {
+            method: 'GET',
+            credentials: 'include'
+         })
+         // console.log(`useEffect run: ${loggedIn.ok}`)
+         // console.log(`isAuth: ${isAuthenticated}`)
          setIsAuthenticated(loggedIn.ok);
          setLoading(false);
       }
       fetchData();
    }, []);
 
-   useEffect(() => {
-      // Check user is authenticated when url changes
-      // Don't check if create account is accessed
-      const checkAuth = () => {
-         // console.log(location);
-         if (location.pathname !== '/create_account') {
-         // Check authorization 
-            console.log(isAuthenticated);
-            if (!isAuthenticated) { 
-               console.log("Not authenticated");
-            }
-         }
-      };
-      checkAuth();
-   }, [location]);
-
-   // useEffect(async () => {
-   //    const response = await fetch(`${apiURL}/userLoggedIn`);
-
-   //    if (response.ok) {
-   //       setIsAuthenticated(true);
-   //       setLoading(false);
-   //    }
-   //    else {
-   //       setIsAuthenticated(false);
-   //       setLoading(false);
-   //    }
-   // }, []);
+   // useEffect(() => {
+   //    // Check user is authenticated when url changes
+   //    // Don't check if create account is accessed
+   //    const checkAuth = () => {
+   //       // console.log(location);
+   //       if (location.pathname !== '/create_account') {
+   //       // Check authorization 
+   //          // console.log(isAuthenticated);
+   //          if (!isAuthenticated) { 
+   //             console.log("Not authenticated");
+   //          }
+   //       }
+   //    };
+   //    checkAuth();
+   // }, [location]);
 
    const login = async (username, password) => {
       try {
@@ -64,7 +56,7 @@ const AuthProvider = ({ children }) => {
             setIsAuthenticated(true);
             // Set sessionStorage to store usage details
             const data = await response.json();
-            sessionStorage.setItem('user.name', data.name);
+            localStorage.setItem('user.name', data.name);
             return true;
          }
          else {

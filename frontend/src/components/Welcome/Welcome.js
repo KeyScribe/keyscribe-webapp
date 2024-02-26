@@ -8,7 +8,7 @@ const Welcome = () => {
 
    useEffect(() => {
       // Read name from session storage, and call setName
-      setName(sessionStorage.getItem('user.name'));
+      setName(localStorage.getItem('user.name'));
    }, []);
 
    if (loading) {
