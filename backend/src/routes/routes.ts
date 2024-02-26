@@ -14,6 +14,8 @@ router.post('/led', ledOn);
 router.post('/claim', claimKeyboard); // WARNING! DOES NOT WORK YET
 router.get('/authorize', authorizeKeyboard);
 router.get('/getUserInfo', isAuthenticated, userInfoHandler);
-router.get('/userLoggedIn', isAuthenticated);
+router.get('/userLoggedIn', isAuthenticated, (req, res) => {
+    return res.status(200).send();
+});
 
 export default router;
