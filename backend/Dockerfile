@@ -6,14 +6,24 @@ RUN apk --no-cache add curl
 # Set working directory in the container
 WORKDIR /app
 
-# Copy the application over, ignoring ./node_modules
-COPY . . 
+# Node runs without root processes
+RUN chown node:node ./
 
-# Install dependencies
-RUN npm install
+# Switch to user node
+USER node
+
+# Copy the package.json over, ignoring ./node_modules
+COPY package*.json ./
+
+# Run npm clean install to install the dependencies
+RUN npm ci && npm cache clean --force
+
+# Copy everything over
+COPY --chown=node:node . .
 
 # Expose port 8000 (the port the app is running on), so that other docker containers can access it
 EXPOSE 8000
 
 # Start the app
-CMD ["npm", "start"]
+CMD ["node", "./dist/index.js"]
+
