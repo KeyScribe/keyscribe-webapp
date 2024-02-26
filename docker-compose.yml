@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: K3yscr1b3
     volumes:
       - postgres_data:/var/lib/postgresql:ro
-      - ~/dbexport.pgsql:/docker-entrypoint-initdb.d/dbexport.sql
+      - ./backend/dbbackup.sql:/docker-entrypoint-initdb.d/dbexport.sql
     # ports:
     #   - '5432:5432'
     network_mode: host
@@ -34,8 +34,8 @@ services:
       JWT_SECRET: 'super_special_secret'
       SESSION_SECRET: 'super_special_secret_session'
       DB_PASSWORD: 'K3yscr1b3'
-      DB_URL: postgres:5432'
-      FRONTEND_CORS: https://localhost:3000
+      DB_HOST: '52.168.92.118'
+      FRONTEND_CORS: http://localhost:3000
     # ports:
     #   - "8000:8000"
     network_mode: host
