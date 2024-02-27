@@ -16,10 +16,10 @@ router.delete('/logout', isAuthenticated, logoutHandler);
 // USER API
 router.post('/claim', isAuthenticated, claimKeyboard);
 router.post('/register', registerHandler);
-router.post('/createSession', isAuthenticated, createSessionHandler);
-router.post('/joinSession', isAuthenticated, joinSesssionHandler);
-router.delete('/leaveSession', isAuthenticated, leaveSessionHandler);
-router.delete('/closeSession', isAuthenticated, closeSessionHandler);
+router.post('/session/create', isAuthenticated, createSessionHandler);
+router.post('/session/join', isAuthenticated, joinSesssionHandler);
+router.delete('/session/leave', isAuthenticated, leaveSessionHandler);
+router.delete('/session/close', isAuthenticated, closeSessionHandler);
 router.get('/getKeyboards', isAuthenticated, getKeyboardsHandler);
 router.post('/friend', addFriend); // DOES NOT WORK YET
 router.get('/authorize', authorizeKeyboard);
