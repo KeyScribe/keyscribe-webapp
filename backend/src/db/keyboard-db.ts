@@ -124,7 +124,6 @@ const getConnectedKeyboards = async (id: number): Promise<number[]> => {
  * @returns The ID of the new session
  */
 const createSession = async (userId: string, pid: number, name: string): Promise<number> => {
-
   // Check to make sure keyboard isn't already in a session and belongs to the user
   const selectQuery = `
     SELECT session_id AS "sessionId"
@@ -165,7 +164,6 @@ const createSession = async (userId: string, pid: number, name: string): Promise
  * @returns True if successful
  */
 const joinSession = async (userId: string, pid: number, sessionId: number): Promise<boolean> => {
-
   const query = `
     UPDATE keyboards
     SET session_id = $3, role = 'student'
@@ -185,7 +183,6 @@ const joinSession = async (userId: string, pid: number, sessionId: number): Prom
  * @returns True if successful
  */
 const leaveSession = async (userId: string, pid: number): Promise<boolean> => {
-
   const query = `
     UPDATE keyboards
     SET session_id = NULL, role = NULL
@@ -198,7 +195,6 @@ const leaveSession = async (userId: string, pid: number): Promise<boolean> => {
   return result.rows.length === 1;
 };
 
-
 /**
  * Attempts to close a session and returns true if successful
  * @param userId The user trying to close the session
@@ -206,18 +202,58 @@ const leaveSession = async (userId: string, pid: number): Promise<boolean> => {
  * @returns True if successful
  */
 const closeSession = async (userId: string, sessionId: number): Promise<boolean> => {
-  
   const query = `
     WITH deleted_session AS (
       SELECT id FROM keyboard_sessions WHERE id = $2 AND owner = $1
     ),
     updated_keyboards AS (
-      UPDATE keyboards SET session_id = NULL, role = NULL WHERE session_id = (SELECT id FROM deleted_session) RETURNING id
+      UPDATE keyboards SET session_id = NULL, role = NULL WHERE session_id=(SELECT id FROM deleted_session) RETURNING id
     )
     DELETE FROM keyboard_sessions WHERE id = (SELECT id FROM deleted_session) RETURNING id;
   `;
 
   const result = await queryPool(query, [userId, sessionId]);
+
+  return result.rows.length >= 1;
+};
+
+/**
+ * Gets all keyboards belonging to a user
+ * @param id The id of the user
+ * @returns A list of keyboards in the form [{id1, name1, selected1}, {id2, name2, selected2}...]
+ */
+const getKeyboards = async (id: string): Promise<any[]> => {
+  const query = 'SELECT id, selected, name FROM keyboards WHERE owner = $1';
+
+  const result = await queryPool(query, [id]);
+
+  return result.rows;
+};
+
+/**
+ * Returns the user's selected keyboard
+ * @param id The id of the user
+ * @returns An object with the id and name of the selected keyboard
+ */
+const getActiveKeyboard = async (id: string): Promise<any> => {
+  const query = 'SELECT id, name FROM keyboards WHERE owner = $1 AND selected=True';
+
+  const result = await queryPool(query, [id]);
+
+  return result.rows[0];
+};
+
+const setActiveKeyboard = async (userId: string, pid: number): Promise<boolean> => {
+  const query = `
+    UPDATE keyboards 
+    SET selected = CASE 
+      WHEN id = $1 THEN true 
+      ELSE false 
+    END
+    WHERE owner = $2
+    RETURNING id`;
+
+  const result = await queryPool(query, [userId, pid]);
 
   return result.rows.length >= 1;
 };
@@ -233,4 +269,7 @@ export {
   joinSession,
   leaveSession,
   closeSession,
+  getKeyboards,
+  getActiveKeyboard,
+  setActiveKeyboard,
 };

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createAccount } from '../db/login-db';
+import { createAccount } from '../db/user-db';
 
 const loginHandler = (req: Request, res: Response) => res.status(200).send();
 

@@ -3,7 +3,18 @@ import { sign } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import path from 'path';
 import {
-  validateHardwareId, getPID, getOwner, setOwner, createKeyboard, createSession, joinSession, leaveSession, closeSession,
+  validateHardwareId,
+  getPID,
+  getOwner,
+  setOwner,
+  createKeyboard,
+  createSession,
+  joinSession,
+  leaveSession,
+  closeSession,
+  getKeyboards,
+  getActiveKeyboard,
+  setActiveKeyboard,
 } from '../db/keyboard-db';
 import { sendMessageToRaspberryPi } from '../websockets/websocket-setup';
 
@@ -95,7 +106,7 @@ const createSessionHandler = async (req: Request, res: Response) => {
   }
 
   const sessionId = await createSession(userId, keyboardId, name);
-  
+
   if (sessionId === -1) {
     return res.status(400).send('Keyboard already in session');
   }
@@ -145,6 +156,30 @@ const closeSessionHandler = async (req: Request, res: Response) => {
   return res.status(200).send();
 };
 
+const getKeyboardsHandler = async (req: Request, res: Response) => {
+  const keyboards = await getKeyboards(req.user!.id);
+  return res.status(200).send(keyboards);
+};
+
+const getActiveHandler = async (req: Request, res: Response) => {
+  const keyboards = await getActiveKeyboard(req.user!.id);
+  return res.status(200).send(keyboards);
+};
+
+const setActiveHandler = async (req: Request, res: Response) => {
+  const userId = req.user!.id;
+  const boardId = req.body.boardId?.toString();
+
+  if (boardId === undefined) {
+    return res.status(400).send('Missing parameters');
+  }
+
+  if (await setActiveKeyboard(userId, boardId)) {
+    return res.status(200).send();
+  }
+  return res.status(400).send();
+};
+
 export {
   authorizeKeyboard,
   claimKeyboard,
@@ -152,4 +187,7 @@ export {
   joinSesssionHandler,
   leaveSessionHandler,
   closeSessionHandler,
+  getKeyboardsHandler,
+  getActiveHandler,
+  setActiveHandler,
 };
