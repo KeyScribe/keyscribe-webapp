@@ -15,12 +15,9 @@ const Login = () => {
             if(await login(username, password)) {
                navigate('/welcome');
             }
-            else {
-               console.error('Incorrect username and password');
-            }
          }
       } catch (error) {
-         console.error('Error during login', error);
+         // console.error('Error during login', error);
       }
    }
    const handleCreateAccount = async () => {
