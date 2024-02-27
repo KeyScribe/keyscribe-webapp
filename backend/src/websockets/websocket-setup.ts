@@ -53,13 +53,11 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
           const pairedKeyboards = await getConnectedKeyboards((decoded as JwtPayload).PID);
 
           pairedKeyboards.forEach((id: number) => {
-            if (message.note !== '[]') {
-              sendMessageToRaspberryPi(
-                id,
-                'note',
-                { note: message.note },
-              );
-            }
+            sendMessageToRaspberryPi(
+              id,
+              'note',
+              { note: message.note },
+            );
           });
         }
       });
