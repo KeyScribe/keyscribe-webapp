@@ -50,17 +50,17 @@ const wsSetup = (httpsServer: Server): WebSocketServer => {
         if (err) {
           ws.close();
         } else {
-          const pairedKeyboards = await getConnectedKeyboards((decoded as JwtPayload).PID);
+          if (message.note !== '[]'){
+            const pairedKeyboards = await getConnectedKeyboards((decoded as JwtPayload).PID);
 
-          pairedKeyboards.forEach((id: number) => {
-            if (message.note !== '[]') {
+            pairedKeyboards.forEach((id: number) => {
               sendMessageToRaspberryPi(
                 id,
                 'note',
                 { note: message.note },
               );
-            }
-          });
+            });
+          }
         }
       });
     });
