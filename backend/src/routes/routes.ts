@@ -22,7 +22,6 @@ router.delete('/session/leave', isAuthenticated, leaveSessionHandler);
 router.delete('/session/close', isAuthenticated, closeSessionHandler);
 router.get('/getKeyboards', isAuthenticated, getKeyboardsHandler);
 router.post('/friend', addFriend); // DOES NOT WORK YET
-router.get('/authorize', authorizeKeyboard);
 router.get('/getUserInfo', isAuthenticated, userInfoHandler);
 router.get('/userLoggedIn', isAuthenticated);
 
