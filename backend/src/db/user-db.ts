@@ -1,14 +1,20 @@
 import { queryPool } from './db-setup';
 
-const getName = async (id: string): Promise<string> => {
-  const query = 'SELECT firstname FROM users WHERE user_id = $1';
+const getInfo = async (id: string): Promise<any> => {
+  const query = 'SELECT firstname, lastname, username, emailaddress FROM users WHERE user_id = $1';
 
   const result = await queryPool(query, [id]);
 
   if (result.rows.length === 0) {
     return '';
   }
-  return result.rows[0].firstname;
+  
+  return {
+    first: result.rows[0].firstname, 
+    last: result.rows[0].lastname,
+    user: result.rows[0].username,
+    email: result.rows[0].emailaddress,
+  }
 };
 
 const getKeyboards = async (id: string): Promise<any[]> => {
@@ -20,6 +26,6 @@ const getKeyboards = async (id: string): Promise<any[]> => {
 }
 
 export {
-  getName,
+  getInfo,
   getKeyboards,
 };

@@ -9,17 +9,23 @@ const AuthProvider = ({ children }) => {
    const [loading, setLoading] = useState(true);
 
    // This function is to prevent losing login status on referesh
-   useEffect(async () => {
-      const response = await fetch(`${apiURL}/userLoggedIn`);
-
-      if (response.ok) {
-         setIsAuthenticated(true);
-         setLoading(false);
-      }
-      else {
-         setIsAuthenticated(false);
-         setLoading(false);
-      }
+   useEffect(() => {
+      const fetchData = async () => {
+         try {
+            const response = await fetch(`${apiURL}/userLoggedIn`);
+            if (response.ok) {
+               setIsAuthenticated(true);
+               setLoading(false);
+            }
+            else {
+               setIsAuthenticated(false);
+               setLoading(false);
+            }
+         } catch(error) {
+            console.error(error);
+         }
+      };
+      fetchData();
    }, []);
 
    const login = async (username, password) => {
