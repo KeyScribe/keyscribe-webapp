@@ -70,19 +70,8 @@ const AuthProvider = ({ children }) => {
       
    };
 
-   const logout = async () => {
-      try {
-         const response = await fetch(`${apiURL}/logout`, {
-            method: 'DELETE',
-            credentials: 'include'
-         });
-         if (response.ok) {
+   const logout = () => {
             setIsAuthenticated(false);
-         }
-      }
-      catch (error) {
-         console.log(error);
-      }
    };
 
    return (
