@@ -10,10 +10,9 @@ const Welcome = () => {
    const { logout } = useAuth();
    const navigate = useNavigate();
    const [name, setName] = useState('');
-   const [board, setBoard] = useState('');
+   const [board, setBoard] = useState({name: '', boardId: ''});
    const [showJoinCard, setShowJoinCard] = useState(false);
    
-
    useEffect(() => {
       const fetchData = async () => {
          try {
@@ -26,7 +25,7 @@ const Welcome = () => {
          try {
             const response = await fetch(`${apiURL}/getActiveKeyboard`);
             const data = await response.json();
-            setBoard(data.name);
+            setBoard(data);
          } catch(error) {
             console.error("Error getting active keyboard: ", error);
          }
@@ -39,23 +38,27 @@ const Welcome = () => {
    }
 
    const handleLogOut = async () => {
-      logout(); // WARNING! Does not work yet
-      navigate('/login');
+      try {
+         await logout();
+         navigate('/login');
+      } catch(error) {
+         console.error('Error during logout: ', error);
+      }
    }
 
    const handleStart = async() => {
-      // try {
-      //    const response = await fetch(`${apiURL}/session/create`, {
-      //       method: 'POST',
-      //       headers: {
-      //          'Content-Type': 'application/json',
-      //       },
-      //       body: JSON.stringify(boardData),
-      //    });
-      //    console.log(response);
-      // } catch (error) {
-      //    console.error("Error starting session:", error);
-      // }
+      try {
+         const response = await fetch(`${apiURL}/session/create`, {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(board),
+         });
+         console.log(response);
+      } catch (error) {
+         console.error("Error starting session:", error);
+      }
       navigate('/session');
    }
 
@@ -76,7 +79,7 @@ const Welcome = () => {
          </NavBar>
          <UserWrapper className='user-wrapper'>
             <h1>Welcome, {name}!</h1>
-            <h2>Selected Board: {board}</h2>
+            <h2>Selected Board: {board.name}</h2>
          </UserWrapper>
          <Button type='button' top='0px' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={handleStart}>Start Session</Button>
          <Button type='button' top='0px' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={openJoin}>Join Session</Button>

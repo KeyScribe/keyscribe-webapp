@@ -13,6 +13,7 @@ const AuthProvider = ({ children }) => {
       const fetchData = async () => {
          try {
             const response = await fetch(`${apiURL}/userLoggedIn`);
+            console.log('userLoggedIn returns: ', response);
             if (response.ok) {
                setIsAuthenticated(true);
                setLoading(false);
@@ -53,8 +54,18 @@ const AuthProvider = ({ children }) => {
       
    };
 
-   const logout = () => {
+   const logout = async () => {
+      console.log('AuthContext logout reached');
       setIsAuthenticated(false);
+      console.log(isAuthenticated);
+      try {
+         const response = await fetch(`${apiURL}/logout`);
+         if (!response.ok) {
+            console.error('Logout request failed.');
+         }
+      } catch(error) {
+         console.error('Error during logout: ', error);
+      }
    };
 
    return (
