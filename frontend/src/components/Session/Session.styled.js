@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { colors } from '../../App.styled';
+import sheetMusic from '../../assets/sheet-music-example.png'
 
 export const SessionWrapper = styled.div`
     width: 100vw;
@@ -20,6 +21,24 @@ export const ColumnWrapper = styled.div`
     position: absolute;
     top: 12%;
     left: 60%;
+
+    &:before {
+        position: absolute;
+        left: -700px;
+        top: 0px;
+        color: #888888;
+        content: " ";
+        display: block;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    &:nth-child(2):before {
+        background-image: url(${sheetMusic});
+        width: 500px;
+        height: 550px;
+        top: 15px;
+    }
 `;
 
 export const InfoWrapper = styled.div`
