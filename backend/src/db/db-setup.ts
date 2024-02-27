@@ -6,7 +6,7 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const pool = new Pool({
   user: 'keyscribe',
-  host: '52.168.92.118',
+  host:  process.env.DB_HOST!,
   database: 'ks_db',
   password: process.env.DB_PASSWORD!,
   port: 5432, // Default PostgreSQL port

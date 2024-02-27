@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { Form, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext/AuthContext';
 import { WelcomeWrapper, UserWrapper } from './Welcome.styled';
 import { colors, NavBar, Button, NavHeaderText, Card, FormField, Input, CardButtonWrapper } from '../../App.styled';
@@ -10,21 +10,27 @@ const Welcome = () => {
    const { logout } = useAuth();
    const navigate = useNavigate();
    const [name, setName] = useState('');
+   const { loading } = useAuth();
    const [showJoinCard, setShowJoinCard] = useState(false);
 
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await fetch(`${apiURL}/getUserInfo`);
-            const data = await response.json();
-            setName(data.first);
-         } catch(error) {
-            console.error(error);
+            const response = await fetch(`${apiURL}/userLoggedIn`, {
+               method: 'GET',
+               credentials: 'include'
+            });
+            if (response.ok) {
+               const data = JSON.parse(localStorage.getItem('user.data'));
+               setName(data.first);     
+            }
+         }
+         catch (error) {
+            console.log(error);
          }
       };
       fetchData();
-   }, []);
-
+   });
    const handleSettings = async () => {
       navigate('/settings');
    }
@@ -46,6 +52,9 @@ const Welcome = () => {
       setShowJoinCard(false);
    }
 
+   if (loading) {
+      return <div className='App'>Loading...</div>;
+   }
    return (
       <WelcomeWrapper data-testid="Welcome">
           <NavBar className='nav-bar'>

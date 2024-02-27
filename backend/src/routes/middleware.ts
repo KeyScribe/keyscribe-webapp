@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Request, Response, NextFunction } from 'express';
 
-const authenticate = passport.authenticate('local');
+const authenticate = passport.authenticate('local', { failureRedirect: '/', failureMessage: true});
 
 const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {

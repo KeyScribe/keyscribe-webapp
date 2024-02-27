@@ -23,11 +23,22 @@ dotenv.config();
 const app: Application = express();
 const port = process.env.PORT || 8000;
 
+const FRONTEND_CORS = process.env.FRONTEND_CORS!;
+const DEV_BACKEND = process.env.DEV_BACKEND!;
+const whitelist = [FRONTEND_CORS, DEV_BACKEND];
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../../frontend/build')));
-app.use(express.static(path.join(__dirname, '../../frontend/public')));
-app.use(cors());
+if (process.env.NODE_ENV === 'dev') {
+  app.use(express.static(path.join(__dirname, '../../frontend/build')));
+  app.use(express.static(path.join(__dirname, '../../frontend/public')));
+}
+app.use(cors({
+  origin: whitelist,
+  methods: 'GET,PUT,POST,DELETE',
+  allowedHeaders: 'content-type, authorization',
+  credentials: true,
+}));
 const PGSession = pgSessionSimple(session);
 app.use(session({
   store: new PGSession({
@@ -70,9 +81,11 @@ app.use(passport.session());
 
 app.use('/api', routes);
 
-app.use((req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.use((req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
+  });
+}
 
 // START SERVER
 const server = https.createServer({
