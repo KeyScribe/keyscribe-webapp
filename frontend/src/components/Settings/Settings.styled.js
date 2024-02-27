@@ -20,4 +20,19 @@ export const ListWrapper = styled.div`
     padding: 1%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const BoardNameWrapper = styled.div`
+    border-radius: 25px;
+    background: ${props => props.selected ? colors.light_bg : colors.med_bg};
+    width: 70%;
+    height: 8%;
+    margin: 3% 1%;
+    padding-top: 2%;
+
+    &:hover {
+        background: ${colors.light_bg};
+    }
 `;

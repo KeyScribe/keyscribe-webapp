@@ -1,3 +1,4 @@
+import { updateLanguageServiceSourceFile } from 'typescript';
 import { queryPool } from './db-setup';
 
 /**
@@ -253,7 +254,7 @@ const setActiveKeyboard = async (userId: string, pid: number): Promise<boolean> 
     WHERE owner = $2
     RETURNING id`;
 
-  const result = await queryPool(query, [userId, pid]);
+  const result = await queryPool(query, [pid, userId]);
 
   return result.rows.length >= 1;
 };

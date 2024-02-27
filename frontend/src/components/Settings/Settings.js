@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext/AuthContext';
 import PropTypes from 'prop-types';
-import { SettingsWrapper, ListWrapper } from './Settings.styled';
+import { SettingsWrapper, ListWrapper, BoardNameWrapper } from './Settings.styled';
 import { colors, NavBar, Button, Input, FormField, NavHeaderText, Card, CardButtonWrapper } from '../../App.styled';
 
 const apiURL = process.env.REACT_APP_BACKEND_URL;
@@ -14,6 +14,7 @@ const Settings = () => {
    const [last, setLastName] = useState('');
    const [username, setUsername] = useState('');
    const [emailaddress, setEmailAddress] = useState('');
+   const [boardList, setBoardList] = useState([]);
 
    useEffect(() => {
       const fetchData = async () => {
@@ -25,11 +26,23 @@ const Settings = () => {
             setUsername(data.user);
             setEmailAddress(data.email);
          } catch(error) {
-            console.error(error);
+            console.error("Error getting user info: ", error);
          }
+         refreshBoards();
       };
       fetchData();
    }, []);
+
+   const refreshBoards = async() => {
+      try {
+         const response = await fetch(`${apiURL}/getKeyboards`);
+         const boards = await response.json();
+         setBoardList(boards);
+         console.log(boards);
+      } catch(error) {
+         console.error("Error getting board list: ", error);
+      }
+   }
 
    const handleBackWelcome = async () => {
       navigate('/welcome');
@@ -61,7 +74,7 @@ const Settings = () => {
    };
 
    const [boardData, setBoardData] = useState({
-      boardName: '',
+      name: '',
       boardId: '',
    });
 
@@ -84,8 +97,10 @@ const Settings = () => {
             body: JSON.stringify(boardData),
          });
          console.log(response);
+         closeBoardCard();
       } catch(error) {
          console.error("Error adding board:", error);
+         // TODO: Show error to user
       }
    };
 
@@ -118,12 +133,32 @@ const Settings = () => {
       }
    };
 
+   const selectBoard = async (boardId) => {
+      console.log('Activating ', boardId, "...");
+      try {
+         const response = await fetch(`${apiURL}/setActiveKeyboard`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ boardId }),
+         });
+         console.log(response);
+         refreshBoards();
+
+      } catch(error) {
+         console.error("Error setting active board:", error);
+      }
+   };
+
    return (
       <SettingsWrapper className='settings-wrapper'>
          <NavBar className='nav-bar'>
-            <Button type='button' top='0px' bg={colors.med_bg} txt={colors.dark_txt} hbg={colors.light_hover} onClick={handleLogOut}>Log Out</Button>
+            <Button type='button' top='0px' bg={colors.med_bg} txt={colors.dark_txt} hbg={colors.light_hover} 
+               onClick={handleLogOut}>Log Out</Button>
             <NavHeaderText className='header'>KeyScribe</NavHeaderText>
-            <Button type='button' top='0px' bg={colors.med_bg} txt={colors.dark_txt} hbg={colors.light_hover} onClick={handleBackWelcome}>Back to Welcome</Button>
+            <Button type='button' top='0px' bg={colors.med_bg} txt={colors.dark_txt} hbg={colors.light_hover} 
+               onClick={handleBackWelcome}>Back to Welcome</Button>
          </NavBar>
          <ListWrapper className='user-list'>
             <h1>My Info</h1>
@@ -135,11 +170,18 @@ const Settings = () => {
          </ListWrapper>
          <ListWrapper className='boards-list'>
             <h1>My Boards</h1>
-            <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={openBoardCard} disabled={isCardOpen}>Add Board</Button>
+            {boardList.map(board => (
+               <BoardNameWrapper key={board.id} selected={board.selected} 
+                  onClick={() => selectBoard(board.id)}>{board.name} 
+               </BoardNameWrapper>
+            ))}
+            <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover}
+               onClick={openBoardCard} disabled={isCardOpen}>Claim Board</Button>
          </ListWrapper>
          <ListWrapper className='friends-list'>
             <h1>My Friends</h1>
-            <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={openFriendCard} disabled={isCardOpen}>Add Friend</Button>
+            <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} 
+               onClick={openFriendCard} disabled={isCardOpen}>Add Friend</Button>
          </ListWrapper>
 
          {showBoardCard && (
@@ -148,9 +190,9 @@ const Settings = () => {
                <FormField>
                   <Input
                      type="text" 
-                     name="boardName"
-                     placeholder="Board Name"
-                     value={boardData.boardName}
+                     name="name"
+                     placeholder="Choose Board Name"
+                     value={boardData.name}
                      onChange={handleBoardChange}
                   />
                </FormField>
@@ -158,7 +200,7 @@ const Settings = () => {
                   <Input
                      type="text" 
                      name="boardId"
-                     placeholder="Board ID"
+                     placeholder="Provided Board ID" // hardware ID
                      value={boardData.boardId}
                      onChange={handleBoardChange}
                   />

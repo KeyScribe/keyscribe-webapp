@@ -167,6 +167,7 @@ const getActiveHandler = async (req: Request, res: Response) => {
 };
 
 const setActiveHandler = async (req: Request, res: Response) => {
+  
   const userId = req.user!.id;
   const boardId = req.body.boardId?.toString();
 
