@@ -18,7 +18,7 @@ const getInfo = async (id: string): Promise<any> => {
 };
 
 const getKeyboards = async (id: string): Promise<any[]> => {
-  const query = 'SELECT id, name FROM keyboards WHERE owner = $1';
+  const query = 'SELECT id, selected, name FROM keyboards WHERE owner = $1';
 
   const result = await queryPool(query, [id]);
 
