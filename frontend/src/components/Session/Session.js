@@ -4,14 +4,33 @@ import PropTypes from 'prop-types';
 import { SessionWrapper, InfoWrapper, ParticipantsWrapper, ColumnWrapper, LeaveContainer, RedCircle, RecordWrapper, Counter } from './Session.styled';
 import { colors, NavBar, NavHeaderText, Button } from '../../App.styled';
 
+const apiURL = process.env.REACT_APP_BACKEND_URL;
+
 const Session = () => {
 
    const navigate = useNavigate();
    const [isRecording, setRecording] = useState(false);
    const [timer, setTimer] = useState(0);
+   const [board, setBoard] = useState({ boardId: '', name: '' });
+   const [sessionId, setSessionId] = useState('');
 
    const handleLeave = async() => {
-      navigate('/welcome');
+      try {
+         const response = await fetch(`${apiURL}/session/close`, {
+            method: 'DELETE',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({sessionId: '75807585'}), 
+         });
+         if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+         }
+         navigate('/welcome');
+      } catch (error) {
+         console.error("Error ending session:", error);
+      }
    }
 
    const startRecord = () => {
@@ -25,6 +44,30 @@ const Session = () => {
    }
 
    useEffect(() => {
+      const fetchData = async () => {
+         try {
+            const response = await fetch(`${apiURL}/getActiveKeyboard`);
+            const data = await response.json();
+            setBoard(data);
+         } catch(error) {
+            console.error("Error getting active keyboard: ", error);
+         }
+         try {
+            const response = await fetch(`${apiURL}/getSessionId?boardId=${board.boardId}`, {
+               method: 'GET',
+               headers: {
+               'Content-Type': 'application/json',
+               }
+            });
+            const data = await response.json();
+            console.log('session data:', data);
+            setSessionId(data);
+         } catch(error) {
+            console.error("Error getting session info: ", error);
+         }
+      };
+      fetchData();
+
       let interval;
   
       if (isRecording) {
@@ -57,8 +100,8 @@ const Session = () => {
          </NavBar>
          <ColumnWrapper>
             <InfoWrapper>
-               <h2>Invite Code: </h2>
-               <h3>Active Board: </h3>
+               <h2>Invite Code: {sessionId}</h2>
+               <h3>Active Board: {board.name}</h3>
             </InfoWrapper>
             <ParticipantsWrapper>
                <h2>Participants:</h2>

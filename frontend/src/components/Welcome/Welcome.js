@@ -10,7 +10,7 @@ const Welcome = () => {
    const { logout } = useAuth();
    const navigate = useNavigate();
    const [name, setName] = useState('');
-   const [board, setBoard] = useState({name: '', boardId: ''});
+   const [board, setBoard] = useState({ boardId: '', name: '' });
    const [showJoinCard, setShowJoinCard] = useState(false);
    
    useEffect(() => {
@@ -55,11 +55,15 @@ const Welcome = () => {
             },
             body: JSON.stringify(board),
          });
-         console.log(response);
+
+         if (!response.ok) {
+            const errorMessage = await response.text();
+            throw new Error(errorMessage);
+         }
+         navigate('/session');
       } catch (error) {
          console.error("Error starting session:", error);
       }
-      navigate('/session');
    }
 
    const openJoin = async() => {

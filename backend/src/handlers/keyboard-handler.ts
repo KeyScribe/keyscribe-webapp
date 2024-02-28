@@ -98,8 +98,9 @@ const claimKeyboard = async (req: Request, res: Response) => {
 };
 
 const createSessionHandler = async (req: Request, res: Response) => {
+
   const userId = req.user!.id;
-  const keyboardId = req.body.boardId?.toString();
+  const keyboardId = req.body.id?.toString();
   const name = req.body.name?.toString();
 
   if (keyboardId === undefined || name === undefined) {
@@ -107,6 +108,7 @@ const createSessionHandler = async (req: Request, res: Response) => {
   }
 
   const sessionId = await createSession(userId, keyboardId, name);
+  console.log("sessionId: ", sessionId);
 
   if (sessionId === -1) {
     return res.status(400).send('Keyboard already in session');
@@ -146,9 +148,10 @@ const leaveSessionHandler = async (req: Request, res: Response) => {
 const closeSessionHandler = async (req: Request, res: Response) => {
   const userId = req.user!.id;
   const sessionId = req.body.sessionId?.toString();
+  console.log('Closing session:', sessionId);
 
   if (sessionId === undefined) {
-    return res.status(400).send('Missing parameters');
+    return res.status(400).send('Missing parameters'); 
   }
 
   if (!await closeSession(userId, sessionId)) {
@@ -184,7 +187,7 @@ const setActiveHandler = async (req: Request, res: Response) => {
 
 const getSessionHandler = async (req: Request, res: Response) => {
   const userId = req.user!.id;
-  const boardId = req.body.boardId?.toString();
+  const boardId = req.query.boardId?.toString();
 
   if (boardId === undefined) {
     return res.status(400).send('Missing parameters');
