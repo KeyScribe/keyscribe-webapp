@@ -180,6 +180,10 @@ const Settings = () => {
          </ListWrapper>
          <ListWrapper className='friends-list'>
             <h1>My Friends</h1>
+            <p>Bob Gator</p>
+            <p>Dr. Alex</p>
+            <p>Carsten</p>
+            <p>Anna</p>
             <Button type='button' top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} 
                onClick={openFriendCard} disabled={isCardOpen}>Add Friend</Button>
          </ListWrapper>
