@@ -13,7 +13,6 @@ const AuthProvider = ({ children }) => {
       const fetchData = async () => {
          try {
             const response = await fetch(`${apiURL}/userLoggedIn`);
-            console.log('userLoggedIn returns: ', response);
             if (response.ok) {
                setIsAuthenticated(true);
                setLoading(false);

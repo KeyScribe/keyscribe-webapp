@@ -11,7 +11,7 @@ const Session = () => {
    const navigate = useNavigate();
    const [isRecording, setRecording] = useState(false);
    const [timer, setTimer] = useState(0);
-   const [board, setBoard] = useState({ boardId: '', name: '' });
+   const [board, setBoard] = useState({ id: '', name: '' });
    const [sessionId, setSessionId] = useState('');
 
    const handleLeave = async() => {
@@ -21,7 +21,7 @@ const Session = () => {
             headers: {
                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({sessionId: '75807585'}), 
+            body: JSON.stringify({sessionId: sessionId}), 
          });
          if (!response.ok) {
             const errorMessage = await response.text();
@@ -44,32 +44,22 @@ const Session = () => {
    }
 
    useEffect(() => {
-      const fetchData = async () => {
-         try {
-            const response = await fetch(`${apiURL}/getActiveKeyboard`);
-            const data = await response.json();
+      fetch(`${apiURL}/getActiveKeyboard`)
+         .then((response) => response.json())
+         .then((data) => { 
             setBoard(data);
-         } catch(error) {
-            console.error("Error getting active keyboard: ", error);
-         }
-         try {
-            const response = await fetch(`${apiURL}/getSessionId?boardId=${board.boardId}`, {
+            return fetch(`${apiURL}/getSessionId?boardId=${data.id}`, {
                method: 'GET',
                headers: {
                'Content-Type': 'application/json',
                }
-            });
-            const data = await response.json();
-            console.log('session data:', data);
-            setSessionId(data);
-         } catch(error) {
-            console.error("Error getting session info: ", error);
-         }
-      };
-      fetchData();
+            })
+         })
+         .then((response) => response.json())
+         .then((data) => setSessionId(data))
+         .catch((err) => console.error("Error getting active keyboard: ", err));
 
       let interval;
-  
       if (isRecording) {
           interval = setInterval(() => {
               setTimer((prevTimer) => prevTimer + 1);

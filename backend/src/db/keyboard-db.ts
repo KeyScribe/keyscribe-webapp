@@ -260,11 +260,11 @@ const setActiveKeyboard = async (userId: string, pid: number): Promise<boolean> 
 };
 
 const getSessionId = async (userId: string, boardId: number): Promise<number> => {
-  const query = 'SELECT session_id FROM keyboards WHERE owner = $1 AND id = $2';
+  const query = 'SELECT session_id as "sessionId" FROM keyboards WHERE owner = $1 AND id = $2';
 
   const result = await queryPool(query, [userId, boardId]);
 
-  return (result.rows.length === 0) ? -1 : result.rows[0];
+  return (result.rows.length === 0) ? -1 : result.rows[0].sessionId;
 };
 
 export {
