@@ -15,6 +15,7 @@ import {
   getKeyboards,
   getActiveKeyboard,
   setActiveKeyboard,
+  getSessionId,
 } from '../db/keyboard-db';
 import { sendMessageToRaspberryPi } from '../websockets/websocket-setup';
 
@@ -181,6 +182,22 @@ const setActiveHandler = async (req: Request, res: Response) => {
   return res.status(400).send();
 };
 
+const getSessionHandler = async (req: Request, res: Response) => {
+  const userId = req.user!.id;
+  const boardId = req.body.boardId?.toString();
+
+  if (boardId === undefined) {
+    return res.status(400).send('Missing parameters');
+  }
+
+  const sessionId = await getSessionId(userId, boardId);
+
+  if (sessionId === -1){
+    return res.status(400).send('Board not in session');
+  }
+  return res.status(200).send(sessionId);
+};
+
 export {
   authorizeKeyboard,
   claimKeyboard,
@@ -191,4 +208,5 @@ export {
   getKeyboardsHandler,
   getActiveHandler,
   setActiveHandler,
+  getSessionHandler,
 };

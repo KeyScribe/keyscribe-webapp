@@ -10,6 +10,7 @@ import {
   getKeyboardsHandler,
   getActiveHandler,
   setActiveHandler,
+  getSessionHandler,
 } from '../handlers/keyboard-handler';
 import { userInfoHandler, addFriend } from '../handlers/user-handler';
 import { authenticate, isAuthenticated } from './middleware';
@@ -32,6 +33,7 @@ router.get('/userLoggedIn', isAuthenticated);
 // KEYBOARD API
 router.get('/getKeyboards', isAuthenticated, getKeyboardsHandler);
 router.get('/getActiveKeyboard', isAuthenticated, getActiveHandler);
+router.get('/getSessionId', isAuthenticated, getSessionHandler);
 router.post('/setActiveKeyboard', isAuthenticated, setActiveHandler);
 router.post('/claim', isAuthenticated, claimKeyboard);
 router.post('/session/create', isAuthenticated, createSessionHandler);
