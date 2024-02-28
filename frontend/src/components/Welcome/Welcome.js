@@ -10,7 +10,8 @@ const Welcome = () => {
    const { logout } = useAuth();
    const navigate = useNavigate();
    const [name, setName] = useState('');
-   const [board, setBoard] = useState({ boardId: '', name: '' });
+   const [joinCode, setJoinCode] = useState('');
+   const [board, setBoard] = useState({ id: '', name: '' });
    const [showJoinCard, setShowJoinCard] = useState(false);
    
    useEffect(() => {
@@ -66,6 +67,23 @@ const Welcome = () => {
       }
    }
 
+   const confirmJoin = async () => {
+      const response = await fetch(`${apiURL}/session/join`, {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({ 
+            sessionId: joinCode,
+            boardId: board.id
+         }),
+      });
+
+      if (response.ok) {
+         navigate('/session');
+      }
+   }
+
    const openJoin = async() => {
       setShowJoinCard(true);
    }
@@ -96,11 +114,13 @@ const Welcome = () => {
                      type="text" 
                      name="joinCode"
                      placeholder="Code"
+                     value={joinCode}
+                     onChange={(e) => setJoinCode(e.target.value)}
                   />
                </FormField>
                <CardButtonWrapper>
                   <Button top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={closeJoin}>Cancel</Button>
-                  <Button top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover}>Confirm</Button>
+                  <Button top='auto' bg={colors.dark_bg} txt={colors.light_txt} hbg={colors.dark_hover} onClick={confirmJoin}>Confirm</Button>
                </CardButtonWrapper>
             </Card>
          )}

@@ -84,7 +84,7 @@ const Settings = () => {
          ...prevData,
          [name]: value,
       }));
-      };
+   };
 
    const confirmBoard = async () => {
       console.log('Board Data Submitted:', boardData);
