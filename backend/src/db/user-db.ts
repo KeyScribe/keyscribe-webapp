@@ -61,6 +61,7 @@ const createAccount = async (user: string, password: string, email: string, firs
   const insert = `
       INSERT INTO Users (username, password, firstname, lastname, emailaddress, user_id) VALUES 
       ($1, $2, $3, $4, $5, gen_random_uuid())
+      RETURNING user_id
     `;
 
   const result = await queryPool(insert, [user, hashedPassword, firstName, lastName, email]);
