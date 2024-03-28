@@ -12,7 +12,10 @@ const AuthProvider = ({ children }) => {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await fetch(`${apiURL}/userLoggedIn`);
+            const response = await fetch(`${apiURL}/userLoggedIn`, {
+               method: 'GET',
+               credentials: 'include',
+            });
             if (response.ok) {
                setIsAuthenticated(true);
                setLoading(false);
@@ -35,6 +38,7 @@ const AuthProvider = ({ children }) => {
             headers: {
             'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({ username, password }),
          });
 
@@ -43,7 +47,6 @@ const AuthProvider = ({ children }) => {
             return true;
          }
          else {
-            console.error('Invalid credentials');
             return false;
          }
       }

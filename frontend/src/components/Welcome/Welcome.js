@@ -17,14 +17,20 @@ const Welcome = () => {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await fetch(`${apiURL}/getUserInfo`);
+            const response = await fetch(`${apiURL}/getUserInfo`, {
+               method: 'GET',
+               credentials: 'include',
+            });
             const data = await response.json();
             setName(data.first);
          } catch(error) {
             console.error("Error getting user info: ", error);
          }
          try {
-            const response = await fetch(`${apiURL}/getActiveKeyboard`);
+            const response = await fetch(`${apiURL}/getActiveKeyboard`, {
+               method: 'GET',
+               credentials: 'include',
+            });
             const data = await response.json();
             setBoard(data);
          } catch(error) {

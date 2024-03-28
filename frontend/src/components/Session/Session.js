@@ -50,6 +50,7 @@ const Session = () => {
             setBoard(data);
             return fetch(`${apiURL}/getSessionId?boardId=${data.id}`, {
                method: 'GET',
+               credentials: 'include',
                headers: {
                'Content-Type': 'application/json',
                }

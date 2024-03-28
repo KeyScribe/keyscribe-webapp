@@ -19,7 +19,10 @@ const Settings = () => {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await fetch(`${apiURL}/getUserInfo`);
+            const response = await fetch(`${apiURL}/getUserInfo`, {
+               method: 'GET',
+               credentials: 'include',
+            });
             const data = await response.json();
             setFirstName(data.first);
             setLastName(data.last);
@@ -35,7 +38,10 @@ const Settings = () => {
 
    const refreshBoards = async() => {
       try {
-         const response = await fetch(`${apiURL}/getKeyboards`);
+         const response = await fetch(`${apiURL}/getKeyboards`, {
+            method: 'GET',
+            credentials: 'include',
+         });
          const boards = await response.json();
          setBoardList(boards);
          console.log(boards);
@@ -94,6 +100,7 @@ const Settings = () => {
             headers: {
                'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify(boardData),
          });
          console.log(response);
@@ -125,6 +132,7 @@ const Settings = () => {
             headers: {
                'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify(friendData),
          });
          console.log(response);
@@ -141,6 +149,7 @@ const Settings = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({ boardId }),
          });
          console.log(response);
