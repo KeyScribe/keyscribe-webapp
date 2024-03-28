@@ -41,4 +41,12 @@ router.post('/session/join', isAuthenticated, joinSesssionHandler);
 router.delete('/session/leave', isAuthenticated, leaveSessionHandler);
 router.delete('/session/close', isAuthenticated, closeSessionHandler);
 
+// FOR TESTING
+router.get('/ping', (req, res) => {
+  console.log("Ping Reached!");
+  return res.status(200).send(
+    {"message": "reached"}
+  );
+})
+
 export default router;
